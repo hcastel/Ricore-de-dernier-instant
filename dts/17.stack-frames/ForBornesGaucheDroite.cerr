@@ -67,7 +67,7 @@ Programme valide.
 37	| Q_COPY || 1:VAR:s	|| 3:VAR:14TEMP	|
 38	| Q_PARAM || 1:CST:1	|| 3:VAR:14TEMP	|
 39	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-40	| RIEN || 3:VAR:STR15	|
+40	| Q_PRINT || 3:VAR:STR15	|
 41	| Q_POP_CTX |
 42	| Q_GOTO |
 43	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

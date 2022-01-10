@@ -139,7 +139,7 @@ Programme valide.
 86	| Q_COPY || 1:CST:0	|| 3:VAR:28TEMP	|
 87	| Q_PARAM || 1:CST:1	|| 3:VAR:28TEMP	|
 88	| Q_CALL_METH || 1:VAR:WriteBool	|| 2:CST:1	|
-89	| RIEN || 3:VAR:STR29	|
+89	| Q_PRINT || 3:VAR:STR29	|
 90	| Q_COPY || 1:VAR:a	|| 3:VAR:30TEMP	|
 91	| Q_PARAM || 1:CST:1	|| 3:VAR:30TEMP	|
 92	| Q_CALL_METH || 1:VAR:isPrime	|| 2:CST:1	|| 3:VAR:31TEMP	|
@@ -163,7 +163,7 @@ Programme valide.
 110	| Q_COPY || 1:CST:0	|| 3:VAR:36TEMP	|
 111	| Q_PARAM || 1:CST:1	|| 3:VAR:36TEMP	|
 112	| Q_CALL_METH || 1:VAR:WriteBool	|| 2:CST:1	|
-113	| RIEN || 3:VAR:STR37	|
+113	| Q_PRINT || 3:VAR:STR37	|
 114	| Q_POP_CTX |
 115	| Q_GOTO |
 116	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

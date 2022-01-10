@@ -40,7 +40,7 @@ Programme valide.
 18	| Q_COPY || 1:VAR:g	|| 3:VAR:7TEMP	|
 19	| Q_PARAM || 1:CST:1	|| 3:VAR:7TEMP	|
 20	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-21	| RIEN || 3:VAR:STR8	|
+21	| Q_PRINT || 3:VAR:STR8	|
 22	| Q_POP_CTX |
 23	| Q_GOTO |
 24	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

@@ -8,12 +8,12 @@
 #include <stdlib.h>
 
 
-struct type_liste {
+struct types_liste {
     type_simple* list;
     quad_op* list_arg;
     int size;
 };
-typedef struct type_liste type_liste;
+typedef struct types_liste types_liste;
 
 
 struct control_liste{

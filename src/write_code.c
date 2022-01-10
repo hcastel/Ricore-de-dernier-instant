@@ -382,10 +382,8 @@ void write_return_stat
 
 }
 
-
-
 void write_method_call
-(void** code_inter, int* next_quad, ctx* current_ctx, int* num_temp, symbole* s_meth ,type_liste t3, expr_val* res){
+(void** code_inter, int* next_quad, ctx* current_ctx, int* num_temp, symbole* s_meth, types_liste t3, expr_val* res){
 
     //renvoi un type
     res->type = s_meth->type.proc.retour;   
@@ -409,13 +407,8 @@ void write_method_call
 
 }
 
-
-
 void write_method_void_decl_args
-(void** code_inter, int* next_quad, ctx* current_ctx, int* num_temp, symbole* s_meth, type_liste t6){
-
-    // symbole* s_meth = look_up($2,(*((ctx**)tab_symbole)));
-
+(void** code_inter, int* next_quad, ctx* current_ctx, int* num_temp, symbole* s_meth, types_liste t6){
     quad_op qo_name_meth, qo_nb_arg;
     new_qo_name(s_meth->name,&(qo_name_meth));
     new_qo_cst(t6.size,&(qo_nb_arg));
@@ -425,10 +418,6 @@ void write_method_void_decl_args
     //on alloue 2 places dans la table des symboles pour symboliser fp et ra
     newname_temp(T_INT,current_ctx,num_temp)->fonction = F_ARG;
     newname_temp(T_INT,current_ctx,num_temp)->fonction = F_ARG;
-
 }
-
-
-
 
 #endif

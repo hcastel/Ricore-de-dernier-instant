@@ -18,15 +18,15 @@ Programme valide.
 4	| Q_GOTO || 3:CST:5	|
 5	| Q_GOTO || 3:CST:11	|
 6	| Q_PUSH_CTX |
-7	| RIEN || 3:VAR:STR2	|
+7	| Q_PRINT || 3:VAR:STR2	|
 8	| Q_POP_CTX |
 9	| Q_GOTO || 3:CST:15	|
 10	| Q_GOTO || 3:CST:15	|
 11	| Q_PUSH_CTX |
-12	| RIEN || 3:VAR:STR3	|
+12	| Q_PRINT || 3:VAR:STR3	|
 13	| Q_POP_CTX |
 14	| Q_GOTO || 3:CST:15	|
-15	| RIEN || 3:VAR:STR4	|
+15	| Q_PRINT || 3:VAR:STR4	|
 16	| Q_POP_CTX |
 17	| Q_GOTO |
 18	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

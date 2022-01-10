@@ -115,11 +115,11 @@ Programme valide.
 66	| Q_COPY || 1:VAR:s	|| 3:VAR:30TEMP	|
 67	| Q_PARAM || 1:CST:1	|| 3:VAR:30TEMP	|
 68	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-69	| RIEN || 3:VAR:STR31	|
+69	| Q_PRINT || 3:VAR:STR31	|
 70	| Q_COPY || 1:VAR:r	|| 3:VAR:32TEMP	|
 71	| Q_PARAM || 1:CST:1	|| 3:VAR:32TEMP	|
 72	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-73	| RIEN || 3:VAR:STR33	|
+73	| Q_PRINT || 3:VAR:STR33	|
 74	| Q_POP_CTX |
 75	| Q_GOTO |
 76	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

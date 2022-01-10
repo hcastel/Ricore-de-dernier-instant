@@ -33,7 +33,7 @@ Programme valide.
 12	| Q_COPY || 1:VAR:r	|| 3:VAR:9TEMP	|
 13	| Q_PARAM || 1:CST:1	|| 3:VAR:9TEMP	|
 14	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-15	| RIEN || 3:VAR:STR10	|
+15	| Q_PRINT || 3:VAR:STR10	|
 16	| Q_POP_CTX |
 17	| Q_GOTO |
 18	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

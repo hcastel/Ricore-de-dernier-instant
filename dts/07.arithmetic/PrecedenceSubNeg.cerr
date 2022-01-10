@@ -28,14 +28,14 @@ Programme valide.
 6	| Q_SUB || 1:VAR:2TEMP	|| 2:VAR:3TEMP	|| 3:VAR:4TEMP	|
 7	| Q_COPY || 1:VAR:4TEMP	|| 3:VAR:x	|
 8	| Q_COPY || 1:VAR:x	|| 3:VAR:5TEMP	|
-9	| RIEN || 1:VAR:5TEMP	|| 3:VAR:6TEMP	|
+9	| Q_NEG || 1:VAR:5TEMP	|| 3:VAR:6TEMP	|
 10	| Q_COPY || 1:VAR:x	|| 3:VAR:7TEMP	|
 11	| Q_SUB || 1:VAR:6TEMP	|| 2:VAR:7TEMP	|| 3:VAR:8TEMP	|
 12	| Q_COPY || 1:VAR:8TEMP	|| 3:VAR:r	|
 13	| Q_COPY || 1:VAR:r	|| 3:VAR:9TEMP	|
 14	| Q_PARAM || 1:CST:1	|| 3:VAR:9TEMP	|
 15	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-16	| RIEN || 3:VAR:STR10	|
+16	| Q_PRINT || 3:VAR:STR10	|
 17	| Q_POP_CTX |
 18	| Q_GOTO |
 19	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

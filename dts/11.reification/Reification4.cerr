@@ -131,7 +131,7 @@ Programme valide.
 95	| Q_COPY || 1:CST:0	|| 3:VAR:21TEMP	|
 96	| Q_PARAM || 1:CST:1	|| 3:VAR:21TEMP	|
 97	| Q_CALL_METH || 1:VAR:WriteBool	|| 2:CST:1	|
-98	| RIEN || 3:VAR:STR22	|
+98	| Q_PRINT || 3:VAR:STR22	|
 99	| Q_POP_CTX |
 100	| Q_GOTO |
 101	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

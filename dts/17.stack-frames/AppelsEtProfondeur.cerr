@@ -138,7 +138,7 @@ Programme valide.
 68	| Q_COPY || 1:VAR:r	|| 3:VAR:27TEMP	|
 69	| Q_PARAM || 1:CST:1	|| 3:VAR:27TEMP	|
 70	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-71	| RIEN || 3:VAR:STR28	|
+71	| Q_PRINT || 3:VAR:STR28	|
 72	| Q_COPY || 1:CST:0	|| 3:VAR:29TEMP	|
 73	| Q_PARAM || 1:CST:1	|| 3:VAR:29TEMP	|
 74	| Q_CALL_METH || 1:VAR:f1	|| 2:CST:1	|| 3:VAR:30TEMP	|
@@ -146,7 +146,7 @@ Programme valide.
 76	| Q_COPY || 1:VAR:r	|| 3:VAR:31TEMP	|
 77	| Q_PARAM || 1:CST:1	|| 3:VAR:31TEMP	|
 78	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-79	| RIEN || 3:VAR:STR32	|
+79	| Q_PRINT || 3:VAR:STR32	|
 80	| Q_COPY || 1:CST:0	|| 3:VAR:33TEMP	|
 81	| Q_PARAM || 1:CST:1	|| 3:VAR:33TEMP	|
 82	| Q_CALL_METH || 1:VAR:f2	|| 2:CST:1	|| 3:VAR:34TEMP	|
@@ -154,7 +154,7 @@ Programme valide.
 84	| Q_COPY || 1:VAR:r	|| 3:VAR:35TEMP	|
 85	| Q_PARAM || 1:CST:1	|| 3:VAR:35TEMP	|
 86	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-87	| RIEN || 3:VAR:STR36	|
+87	| Q_PRINT || 3:VAR:STR36	|
 88	| Q_COPY || 1:CST:0	|| 3:VAR:37TEMP	|
 89	| Q_PARAM || 1:CST:1	|| 3:VAR:37TEMP	|
 90	| Q_CALL_METH || 1:VAR:f3	|| 2:CST:1	|| 3:VAR:38TEMP	|
@@ -162,7 +162,7 @@ Programme valide.
 92	| Q_COPY || 1:VAR:r	|| 3:VAR:39TEMP	|
 93	| Q_PARAM || 1:CST:1	|| 3:VAR:39TEMP	|
 94	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-95	| RIEN || 3:VAR:STR40	|
+95	| Q_PRINT || 3:VAR:STR40	|
 96	| Q_POP_CTX |
 97	| Q_GOTO |
 98	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|
