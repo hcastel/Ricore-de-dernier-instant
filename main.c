@@ -18,12 +18,6 @@ void print_code_inter(quad* code_inter, int next_quad);
 
 int main(int argc, char* argv[]){
 
-    yyin = fopen(argv[1],"r");
-    if( yyin==NULL ){
-        fprintf(stderr,"Le fichier decaf n'existe pas.\n");
-        return 1;
-    }
-
     char* file_dest = NULL;
     int tos = 0, aff_name = 0;
     char nom_groupe[] ="ESCUDIE Erwan, NICOLAZO David, ANDRIDJISHIFS-DINA Vagnona, BASTIEN Théo, CASTEL Hugo";
@@ -39,6 +33,12 @@ int main(int argc, char* argv[]){
         if( strcmp(argv[i],"-tos")==0 ){
             tos = 1;
         }
+    }
+
+    yyin = fopen(argv[1],"r");
+    if( yyin==NULL ){
+        fprintf(stderr,"Le fichier decaf n'existe pas.\n");
+        return 1;
     }
 
 
