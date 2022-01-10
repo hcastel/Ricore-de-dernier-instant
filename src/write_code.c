@@ -1,7 +1,6 @@
 #ifndef WRITE_CODE_C
 #define WRITE_CODE_C
 
-
 #include "../include/write_code.h"
 #include "../include/liste.h"
 #include "../include/table_symb.h"
@@ -12,7 +11,6 @@
 quad_op cst_vide = {QO_VIDE,-1};
 quad_op cst_un = {QO_CST,1};
 quad_op cst_zero = {QO_CST,0};
-
 
 
 void gencode
@@ -30,15 +28,12 @@ void gencode
 
 void complete_liste
 (void** code_inter, int* l, int size, int q){
-
     quad* code = *((quad**)code_inter);
 
     for(int i = 0; i<size; i++){
         new_qo_cst(q,&(code[l[i]].q3));
     }
-    if(size!=0){
-        free(l);        
-    }
+    free(l);
 }
 
 

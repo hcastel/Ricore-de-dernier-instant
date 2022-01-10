@@ -9,9 +9,6 @@
 
 struct symbole {
 
-    //si = 0 faux, sinon vrai
-    // int protect;
-
     enum fonction {
         F_VAR,
         F_TEMP,
@@ -54,7 +51,6 @@ struct contexte {
         CTX_SIMP,
         CTX_FOR,
         CTX_METH,
-        CTX_GLB,
     } ctx_type;
     int size_tab;
     int size_next;
@@ -65,8 +61,7 @@ struct contexte {
 };
 
 
-ctx* push_ctx(ctx* ctx_cour);
-ctx* push_ctx_for(ctx* ctx_cour);
+ctx* push_ctx(ctx* ctx_cour, enum ctx_type type);
 symbole* look_up(char* name, ctx* ctx_cour);
 int dans_ctx_for(ctx* ctx_cour);
 

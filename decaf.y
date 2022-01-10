@@ -3,7 +3,6 @@
     #include "include/write_code.h" 
 }
 
-
 %{
     #include <stdio.h>
     #include <string.h>
@@ -11,6 +10,9 @@
     #include "include/quad.h"
     #include "include/liste.h"
     #include "include/table_symb.h"
+
+    #define TAB_SYMBOLES (*((ctx**)tab_symbole))
+    #define ERROR(msg) yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\t"msg".")
 
     extern int yylex();
     /* extern int numero_type[]; */
@@ -42,84 +44,76 @@
 %}
 
 
-
-
-%token VIRG 
-%token OP_PAR 
-%token OP_CRO 
-%token OP_BRA 
-%token CL_BRA 
-%token CL_CRO 
-%token CL_PAR 
-%token BEG SM 
-%token TYPE_VOID 
-%token U_MOINS 
-%token IF 
-%token ELSE 
-%token FOR 
-%token BREAK 
-%token CONTINUE 
+%token VIRG
+%token OP_PAR
+%token OP_CRO
+%token OP_BRA
+%token CL_BRA
+%token CL_CRO
+%token CL_PAR
+%token BEG SM
+%token TYPE_VOID
+%token U_MOINS
+%token IF
+%token ELSE
+%token FOR
+%token BREAK
+%token CONTINUE
 %token RETURN
 
-
-
-
-%union
-{
+%union{
     char *str_val;
     long int int_val;
 
-    // liste de type (typiquement utilisée pour les arguments de fonction)
+    // liste de types (typiquement utilisée pour les arguments de fonction)
     type_liste type_liste;
-    // liste contenant l'état d'un bloc (break, return etc...)
+    // liste contenant l'état d'un bloc (break, return, etc...)
     control_liste control_liste;
-    // expr (listes booleennes, entier, etc...)
+    // expr (listes booléennes, entier, etc...)
     expr_val expr_val;
 }
-
 
 %token <str_val> ID
 %token <str_val> STRING_LIT
 
-%token <int_val> WS
-%token <int_val> HEX_LIT 
-%token <int_val> DEC_LIT 
-%token <int_val> BOOL_TRUE 
-%token <int_val> BOOL_FALSE 
-%token <int_val> CHAR_LIT 
-%token <int_val> OP_PLUS 
-%token <int_val> OP_SUB 
-%token <int_val> OP_MULT 
-%token <int_val> OP_DIV 
-%token <int_val> OP_RES 
-%token <int_val> OP_LESS 
-%token <int_val> OP_GREAT 
-%token <int_val> OP_LESS_EQ 
-%token <int_val> OP_GREAT_EQ 
-%token <int_val> AFF_EQ 
-%token <int_val> AFF_INC 
-%token <int_val> AFF_DEC 
-%token <int_val> OP_EQ 
-%token <int_val> OP_NOT_EQ 
-%token <int_val> OP_AND 
-%token <int_val> OP_OR 
-%token <int_val> OP_NOT
-%token <int_val> TYPE_INT 
-%token <int_val> TYPE_BOOL
+%token <int_val> HEX_LIT
+%token <int_val> DEC_LIT
+%token <int_val> CHAR_LIT
+%token WS
+%token BOOL_TRUE
+%token BOOL_FALSE
+%token OP_PLUS
+%token OP_SUB
+%token OP_MULT
+%token OP_DIV
+%token OP_RES
+%token OP_LESS
+%token OP_GREAT
+%token OP_LESS_EQ
+%token OP_GREAT_EQ
+%token OP_EQ
+%token OP_NOT_EQ
+%token OP_AND
+%token OP_OR
+%token OP_NOT
+%token AFF_EQ
+%token AFF_INC
+%token AFF_DEC
+%token TYPE_INT
+%token TYPE_BOOL
 
-%type <expr_val> location 
-%type <expr_val> literal 
-%type <expr_val> expr 
-%type <expr_val> int_literal 
-%type <expr_val> bool_literal 
+
+%type <expr_val> location
+%type <expr_val> literal
+%type <expr_val> expr
+%type <expr_val> int_literal
+%type <expr_val> bool_literal
 %type <expr_val> method_call
 %type <expr_val> return_res
 
-
-
 %type <control_liste> block
 %type <control_liste> statements
-%type <control_liste> statement 
+%type <control_liste> statement
 %type <control_liste> N
 
 %type <type_liste> method_decl_args
@@ -127,18 +121,9 @@
 %type <type_liste> method_call_args
 %type <type_liste> method_call_arg
 
-
-
-
-// %type <int_val> arith_op 
-// %type <int_val> bin_op 
-%type <int_val> assign_op 
-// %type <int_val> rel_op 
-// %type <int_val> eq_op 
-// %type <int_val> cond_op 
+%type <int_val> assign_op
 %type <int_val> M
 %type <int_val> type
-
 
 
 %left OP_OR
@@ -162,17 +147,17 @@ program:
             {
                 int trouve = 0;
 
-                for(int i = 0; i<(*((ctx**)tab_symbole))->size_tab; i++){
-                    if(strcmp((*((ctx**)tab_symbole))->tab[i].name,"main")==0
-                    && (*((ctx**)tab_symbole))->tab[i].type.proc.nb_arg==0
-                    && (*((ctx**)tab_symbole))->tab[i].type.proc.retour==T_VOID){
+                for(int i = 0; i<TAB_SYMBOLES->size_tab; i++){
+                    if(strcmp(TAB_SYMBOLES->tab[i].name,"main")==0
+                    && TAB_SYMBOLES->tab[i].type.proc.nb_arg==0
+                    && TAB_SYMBOLES->tab[i].type.proc.retour==T_VOID){
                         trouve=1;
                     }
                 }
                 
                 if(trouve==0){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tMain non-defini.");
-                    YYABORT;                    
+                    ERROR("Main non défini");
+                    YYABORT;
                 }
             }
     ;
@@ -180,9 +165,8 @@ program:
 push_deb:
     %empty
             {
-
-                (*((ctx**)tab_symbole)) = push_ctx((*((ctx**)tab_symbole)));
-                current_ctx = (*((ctx**)tab_symbole));
+                TAB_SYMBOLES = push_ctx(TAB_SYMBOLES, CTX_SIMP);
+                current_ctx = TAB_SYMBOLES;
 
                 int* list_i = malloc(1*sizeof(int));
                 list_i[0] = T_INT;
@@ -195,52 +179,40 @@ push_deb:
                 newname_proc_ext("ReadInt",NULL,0,T_INT,current_ctx);
 
                 gencode(code_inter,next_quad,Q_PUSH_CTX,qo_vide,qo_vide,qo_vide);
-
             }
     ;
 
 
-field_decls: 
-    field_decls field_decl              
+field_decls:
+    field_decls field_decl
     | %empty
     ;
 
-field_decl: 
-    type field_ids SM                                
+field_decl:
+    type field_ids SM
     ;
 
-field_ids: 
-    field_ids VIRG ID
-            {   
-                if(newname_var_glb($3,$<int_val>0,current_ctx)==NULL){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
-                    YYABORT;
-                }
-            }
-    | field_ids VIRG ID OP_CRO int_literal CL_CRO
+field_ids:
+    field_ids VIRG field_id
+    | field_id
+    ;
+
+field_id:
+    ID
             {
-                if(newname_tab($3,$<int_val>0,$5.result.qo.qo_valeur.cst,current_ctx)==NULL){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
-                    YYABORT;
-                }
-            }
-    | ID
-            {   
                 if(newname_var_glb($1,$<int_val>0,current_ctx)==NULL){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
+                    ERROR("Redéfinition d'un identifiant de la même portée");
                     YYABORT;
                 }
             }
     | ID OP_CRO int_literal CL_CRO
-            {   
+            {
                 if( newname_tab($1,$<int_val>0,$3.result.qo.qo_valeur.cst,current_ctx)==NULL ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
+                    ERROR("Redéfinition d'un identifiant de la même portée");
                     YYABORT;
                 }
             }
     ;
-
-
 
 method_decls:
     method_decls method_decl
@@ -251,17 +223,17 @@ method_decl:
     type ID 
             {
                 if( strncmp("label",$2,5)==0 ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tMéthode commencant par label interdite.");
+                    ERROR("Méthode commencant par label interdite");
                     YYABORT;
                 }
                 if( newname_proc($2,NULL,0,$1,current_ctx)==NULL ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
+                    ERROR("Redéfinition d'un identifiant de la même portée");
                     YYABORT;
                 }
             }
     push OP_PAR method_decl_args
             {
-                symbole* s_meth = look_up($2,(*((ctx**)tab_symbole)));
+                symbole* s_meth = look_up($2,TAB_SYMBOLES);
                 s_meth->type.proc.nb_arg = $6.size;
                 s_meth->type.proc.arg = $6.list;
                 s_meth->type.proc.retour = $1;
@@ -271,15 +243,15 @@ method_decl:
             }
     CL_PAR block
             {
-                symbole* s_meth = look_up($2,(*((ctx**)tab_symbole)));
+                symbole* s_meth = look_up($2,TAB_SYMBOLES);
 
                 if($9.size_return!=0 && $9.type_return!=$1){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tType de retour incohérent.");
+                    ERROR("Types de retour incohérents");
                     YYABORT;
                 }
 
                 quad_op qo_name_meth, qo_nb_arg;
-                new_qo_name(look_up($2,(*((ctx**)tab_symbole)))->name,&(qo_name_meth));
+                new_qo_name(look_up($2,TAB_SYMBOLES)->name,&(qo_name_meth));
                 new_qo_cst($6.size,&(qo_nb_arg));
                 
                 gencode(code_inter,next_quad,Q_END_METH,qo_vide,qo_vide,qo_vide);
@@ -290,17 +262,17 @@ method_decl:
     | TYPE_VOID ID 
             {
                 if( strncmp("label",$2,5)==0 ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tMot commencant par label interdit.");
+                    ERROR("Mot commencant par label interdit");
                     YYABORT;
                 }
                 if( newname_proc($2,NULL,0,T_VOID,current_ctx)==NULL){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
+                    ERROR("Redéfinition d'un identifiant de la même portée");
                     YYABORT;
                 }
             }
     push OP_PAR method_decl_args
             {
-                symbole* s_meth = look_up($2,(*((ctx**)tab_symbole)));
+                symbole* s_meth = look_up($2,TAB_SYMBOLES);
                 s_meth->type.proc.nb_arg = $6.size;
                 s_meth->type.proc.arg = $6.list;
                 s_meth->type.proc.retour = T_VOID;
@@ -309,15 +281,15 @@ method_decl:
             }
     CL_PAR block
             {
-                symbole* s_meth = look_up($2,(*((ctx**)tab_symbole)));
+                symbole* s_meth = look_up($2,TAB_SYMBOLES);
 
                 if($9.size_return!=0 && $9.type_return!=T_VOID){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tType de retour incohérent.");
+                    ERROR("Types de retour incohérents");
                     YYABORT;
                 }
                 
                 quad_op qo_name_meth, qo_nb_arg;
-                new_qo_name(look_up($2,(*((ctx**)tab_symbole)))->name,&(qo_name_meth));
+                new_qo_name(look_up($2,TAB_SYMBOLES)->name,&(qo_name_meth));
                 new_qo_cst($6.size,&(qo_nb_arg));
 
                 complete_liste(code_inter,$9.l_return,$9.size_return,(*next_quad));
@@ -343,7 +315,7 @@ method_decl_arg:
             {
                 $$.list = concat_liste_int((int*)$1.list,$3,$1.size,&($$.size));
                 if( newname_arg($4,$3,current_ctx)==NULL){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
+                    ERROR("Redéfinition d'un identifiant de la même portée");
                     YYABORT;
                 }
             }
@@ -353,7 +325,7 @@ method_decl_arg:
                 $$.list[0] = $1;
                 $$.size = 1;
                 if( newname_arg($2,$1,current_ctx)==NULL){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
+                    ERROR("Redéfinition d'un identifiant de la même portée");
                     YYABORT;
                 }
             }
@@ -374,7 +346,7 @@ block:
 push:
     %empty
             {
-                current_ctx = push_ctx(current_ctx);
+                current_ctx = push_ctx(current_ctx, CTX_SIMP);
                 gencode(code_inter,next_quad,Q_PUSH_CTX,qo_vide,qo_vide,qo_vide);
             }
     ;
@@ -400,14 +372,14 @@ var_ids:
     var_ids VIRG ID
             {   
                 if(newname_var($3,$<int_val>0,current_ctx)==NULL){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
+                    ERROR("Redéfinition d'un identifiant de la même portée");
                     YYABORT;
                 }
             }
     | ID
             {
                 if(newname_var($1,$<int_val>0,current_ctx)==NULL){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRedéfinition d'un identifiant de la même portée.");
+                    ERROR("Redéfinition d'un identifiant de la même portée");
                     YYABORT;
                 }
             }
@@ -443,7 +415,7 @@ statements:
                 } else if( $3.type_return==T_VOID){
                     $$.type_return=$1.type_return;
                 } else if( $3.type_return!=$1.type_return ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tTypes de retour incohérents.");
+                    ERROR("Types de retour incohérents");
                     YYABORT;
                 } else {
                     $$.type_return=$3.type_return;
@@ -463,7 +435,7 @@ statement:
     WS OP_PAR literal CL_PAR SM
             {
                 if($3.type!=T_STRING){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tWriteString n'accepte que des Strings en argument.");
+                    ERROR("WriteString n'accepte que des Strings en argument");
                     YYABORT;
                 }             
                 gencode(code_inter,next_quad,Q_PRINT,qo_vide,qo_vide,$3.result.qo);
@@ -480,7 +452,7 @@ statement:
                 
                 if( $2==AFF_INC ){    
                     if( $1.type!=$3.type || $1.type!=T_INT ){
-                        yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tIncrementation entre entiers uniquement.");
+                        ERROR("Incrémentation entre entiers uniquement");
                         YYABORT;   
                     } else {
                         write_inc_dec(code_inter, next_quad, current_ctx, &num_temp, $1, $3, Q_ADD);
@@ -489,7 +461,7 @@ statement:
 
                 if($2==AFF_DEC){
                     if($1.type!=$3.type || $1.type!=T_INT){
-                        yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tDécrementation entre entiers uniquement.");
+                        ERROR("Décrémentation entre entiers uniquement");
                         YYABORT;   
                     } else {
                         write_inc_dec(code_inter, next_quad, current_ctx, &num_temp, $1, $3, Q_SUB);
@@ -502,7 +474,7 @@ statement:
                     } else if ($1.type==T_BOOL && $3.type==T_BOOL) {
                         write_assign_bool(code_inter, next_quad, current_ctx, $1, $3);
                     } else {    
-                        yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tAssignation entre types différents interdite.");
+                        ERROR("Assignation entre types différents interdite");
                         YYABORT;    
                     }
                 }
@@ -521,7 +493,7 @@ statement:
     | IF OP_PAR expr CL_PAR M block
             {
                 if( $3.type != T_BOOL ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tL'expression évaluée dans le if doit être boolean.");
+                    ERROR("L'expression évaluée dans le if doit être booléenne");
                     YYABORT;
                 } else {
                     write_if_stat(code_inter, next_quad, current_ctx, &num_temp, $3, $5, $6, &$$);
@@ -530,7 +502,7 @@ statement:
     | IF OP_PAR expr CL_PAR M block ELSE N M block
             {
                 if( $3.type != T_BOOL ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tL'expression évaluée dans le if doit être boolean.");
+                    ERROR("L'expression évaluée dans le if doit être booléenne");
                     YYABORT;
                 } else {
                     write_if_else_stat(code_inter, next_quad, current_ctx, &num_temp, $3, $5, $6, $8, $9, $10, &$$);
@@ -540,7 +512,7 @@ statement:
                     } else if( $10.type_return==T_VOID){
                         $$.type_return=$6.type_return;
                     } else if( $10.type_return!=$6.type_return ){
-                        yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tTypes de retour incohérents.");
+                        ERROR("Types de retour incohérents");
                         YYABORT;
                     } else {
                         $$.type_return=$6.type_return;
@@ -551,11 +523,11 @@ statement:
     | FOR ID AFF_EQ expr VIRG expr
             {
                 if( $4.type!=T_INT || $6.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tLes bornes de la boucle for doivent être des entiers.");
+                    ERROR("Les bornes de la boucle for doivent être des entiers");
                     YYABORT;
                 }
 
-                current_ctx = push_ctx_for(current_ctx);
+                current_ctx = push_ctx(current_ctx, CTX_FOR);
                 gencode(code_inter,next_quad,Q_PUSH_CTX,qo_vide,qo_vide,qo_vide);
                 
                 //protection des variables de controle de la boucle for
@@ -598,7 +570,7 @@ statement:
     | BREAK SM
             {
                 if( dans_ctx_for(current_ctx)==0 ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tInstruction break en dehors d'une boucle for.");
+                    ERROR("Instruction break en-dehors d'une boucle for");
                     YYABORT;
                 }
                 write_empty_stat(&$$);
@@ -608,7 +580,7 @@ statement:
     | CONTINUE SM
             {
                 if( dans_ctx_for(current_ctx)==0 ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tInstruction continue en dehors d'une boucle for.");
+                    ERROR("Instruction continue en-dehors d'une boucle for");
                     YYABORT;
                 }
                 write_empty_stat(&$$);
@@ -665,22 +637,22 @@ method_call:
             {
                
                 
-                symbole* s_meth = look_up($1,(*((ctx**)tab_symbole)));
+                symbole* s_meth = look_up($1,TAB_SYMBOLES);
 
                 //vérification de l'existence de la methode
                 if(s_meth==NULL || s_meth->fonction!=F_METH){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tAppel à une méthode non définie.");
+                    ERROR("Appel à une méthode non définie");
                     YYABORT;
                 }
                 //vérification du nombre d'arguments
                 if(s_meth->type.proc.nb_arg!=$3.size){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tNombre d'arguments incohérent.");
+                    ERROR("Nombre d'arguments incohérent");
                     YYABORT;
                 }
                 //vérification du type
                 for(int i = 0; i<$3.size; i++){
                     if( s_meth->type.proc.arg[i]!=$3.list[i] ){
-                        yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tLe type des arguments de l'appel ne correspond pas à la définition de la méthode.");
+                        ERROR("Le type des arguments de l'appel ne correspond pas à la définition de la méthode");
                         YYABORT;
                     }
                 }
@@ -773,18 +745,18 @@ location:
             {
                 symbole* s_id = look_up($1,current_ctx);
                 if( s_id==NULL ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tSymbole non défini.");
+                    ERROR("Symbole non défini");
                     YYABORT;
                 }
                 if( s_id->fonction!=F_METH
-                 && s_id->fonction!=F_TAB 
+                 && s_id->fonction!=F_TAB
                  && s_id->fonction!=F_TEMP)
                 {
                     $$.type = s_id->type.simple;
                     new_qo_vide(&($$.dplc));
                     new_qo_name(s_id->name,&($$.result.qo));
                 } else {
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tUtilisation impossible de la variable.");
+                    ERROR("Utilisation impossible de la variable");
                     YYABORT;
                 }
             }
@@ -794,11 +766,11 @@ location:
                 symbole* s_tab = look_up($1,current_ctx);
                 
                 if(s_tab==NULL){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tTableau non défini.");
+                    ERROR("Tableau non défini");
                     YYABORT;
                 }
                 if($3.type!=T_INT){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tIndex du tableau non entier.");
+                    ERROR("Index du tableau non entier");
                     YYABORT;
                 }
 
@@ -807,7 +779,7 @@ location:
                     $$.dplc = $3.result.qo;
                     new_qo_name(s_tab->name,&($$.result.qo));
                 } else {
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tLa variable ne correspond pas à un tableau.");
+                    ERROR("La variable ne correspond pas à un tableau");
                     YYABORT;
                 }
             }
@@ -827,7 +799,7 @@ expr:
                 } else if ( $1.type==T_INT ){
                     write_location_int_to_expr(code_inter, next_quad, current_ctx, &num_temp, $1, &$$);
                 } else {
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tType de l'identificateur non reconnu.");
+                    ERROR("Type de l'identificateur non reconnu");
                     YYABORT;
                 }
             }
@@ -840,13 +812,13 @@ expr:
                 if( $1.type == T_INT ){
                     $$ = $1;
                 } else if ( $1.type == T_BOOL ) {
-                    //return renvoie un boolean réifier, on deréifie
+                    //return renvoie un boolean réifié, on deréifie
                     $$.result.liste_bool.liste_true = creer_liste((*next_quad),&($$.result.liste_bool.size_true));
                     $$.result.liste_bool.liste_false = creer_liste((*next_quad)+1,&($$.result.liste_bool.size_false));
                     gencode(code_inter,next_quad,Q_IF,$1.result.qo,qo_vide,qo_vide);
                     gencode(code_inter,next_quad,Q_GOTO,qo_vide,qo_vide,qo_vide);                     
                 } else {
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tRetour de méthode incompatible avec les calculs.");
+                    ERROR("Retour de méthode incompatible avec les calculs");
                     YYABORT;
                 }
             }
@@ -859,7 +831,7 @@ expr:
                 } else if( $1.type == T_INT ){
                     write_int_to_expr(code_inter,next_quad,current_ctx,&num_temp,$1,&$$);
                 } else {
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tLitteral non reconnu.");
+                    ERROR("Littéral non reconnu");
                     YYABORT;                    
                 }
             }
@@ -867,7 +839,7 @@ expr:
         //[temp,int] => [temp,int]
             {
                 if( $1.type!=T_INT || $3.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tOpérations arithmétiques entre entiers seulement");
+                    ERROR("Opérations arithmétiques entre entiers seulement");
                     YYABORT;
                 } else {
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),$1,$3,&$$,Q_ADD);  
@@ -877,7 +849,7 @@ expr:
         //[temp,int] => [temp,int]
             {
                 if( $1.type!=T_INT || $3.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tOpérations arithmétiques entre entiers seulement");
+                    ERROR("Opérations arithmétiques entre entiers seulement");
                     YYABORT;
                 } else {
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),$1,$3,&$$,Q_SUB); 
@@ -887,7 +859,7 @@ expr:
         //[temp,int] => [temp,int]
             {
                 if( $1.type!=T_INT || $3.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tOpérations arithmétiques entre entiers seulement");
+                    ERROR("Opérations arithmétiques entre entiers seulement");
                     YYABORT;
                 } else {
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),$1,$3,&$$,Q_MULT);
@@ -897,7 +869,7 @@ expr:
         //[temp,int] => [temp,int]
             {
                 if( $1.type!=T_INT || $3.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tOpérations arithmétiques entre entiers seulement");
+                    ERROR("Opérations arithmétiques entre entiers seulement");
                     YYABORT;
                 } else {
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),$1,$3,&$$,Q_DIV);
@@ -907,7 +879,7 @@ expr:
         //[temp,int] => [temp,int]
             {
                 if( $1.type!=T_INT || $3.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tOpérations arithmétiques entre entiers seulement");
+                    ERROR("Opérations arithmétiques entre entiers seulement");
                     YYABORT;
                 } else {
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),$1,$3,&$$,Q_RES);
@@ -917,7 +889,7 @@ expr:
         //[temp,int] => [list,bool]
             {
                 if( $1.type!=T_INT || $3.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tOpérations de comparaison arithmétiques entre entiers seulement");
+                    ERROR("Opérations de comparaison arithmétique entre entiers seulement");
                     YYABORT;
                 } else {
                     write_op_log_int_to_expr(code_inter, next_quad, current_ctx, &num_temp, $1, $3, &$$, Q_GREAT);
@@ -927,7 +899,7 @@ expr:
         //[temp,int] => [list,bool]
             {
                 if( $1.type!=T_INT || $3.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tOpérations de comparaison arithmétiques entre entiers seulement");
+                    ERROR("Opérations de comparaison arithmétique entre entiers seulement");
                     YYABORT;
                 } else {
                     write_op_log_int_to_expr(code_inter, next_quad, current_ctx, &num_temp, $1, $3, &$$, Q_GREAT_EQ);
@@ -937,7 +909,7 @@ expr:
         //[temp,int] => [list,bool]
             {
                 if( $1.type!=T_INT || $3.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tOpérations de comparaison arithmétiques entre entiers seulement");
+                    ERROR("Opérations de comparaison arithmétique entre entiers seulement");
                     YYABORT;
                 } else {
                     write_op_log_int_to_expr(code_inter, next_quad, current_ctx, &num_temp, $1, $3, &$$, Q_LESS);
@@ -947,7 +919,7 @@ expr:
         //[temp,int] => [list,bool]
             {
                 if( $1.type!=T_INT || $3.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tOpérations de comparaison arithmétiques entre entiers seulement");
+                    ERROR("Opérations de comparaison arithmétique entre entiers seulement");
                     YYABORT;
                 } else {
                     write_op_log_int_to_expr(code_inter, next_quad, current_ctx, &num_temp, $1, $3, &$$, Q_LESS_EQ);
@@ -958,7 +930,7 @@ expr:
         //[list,bool]   => [list,bool]
             {
                 if( $1.type!=$4.type ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tComparaison d'égalité seulement entre même type.");
+                    ERROR("Comparaison d'égalité seulement entre mêmes types");
                     YYABORT;
                 } else {
                     if( $1.type==T_INT ){
@@ -974,7 +946,7 @@ expr:
         //[list,bool]   => [list,bool]
             {
                 if( $1.type!=$4.type ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tComparaison d'égalité seulement entre même type.");
+                    ERROR("Comparaison d'égalité seulement entre mêmes types");
                     YYABORT;
                 } else {
                     if( $1.type==T_INT ){
@@ -991,7 +963,7 @@ expr:
                 if( $1.type!=T_BOOL 
                  || $4.type!=T_BOOL )
                 {
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\t Opération OR entre booleans seulement.");
+                    ERROR("Opération OR entre booléens seulement");
                     YYABORT;
                 } else {
                     write_or_to_expr(code_inter, next_quad, current_ctx, &num_temp, $1, $3, $4, &$$);
@@ -1003,7 +975,7 @@ expr:
                 if( $1.type!=T_BOOL 
                     || $4.type!=T_BOOL )
                 {
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\t Opération AND entre booleans seulement.");
+                    ERROR("Opération AND entre booléens seulement");
                     YYABORT;
                 } else {
                     write_and_to_expr(code_inter, next_quad, current_ctx, &num_temp, $1, $3, $4, &$$);
@@ -1014,7 +986,7 @@ expr:
         //[temp,int]   => [temp,int]
             {
                 if( $2.type!=T_INT ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tL'opération unaire - ne s'applique qu'aux entiers");
+                    ERROR("L'opération unaire - ne s'applique qu'aux entiers");
                     YYABORT;
                 } else {
                     write_neg_to_expr(code_inter, next_quad, current_ctx, &num_temp, $2, &$$);
@@ -1024,7 +996,7 @@ expr:
         //[list,bool]   => [list,bool]
             {
                 if( $2.type!=T_BOOL ){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tL'opérateur ! ne s'applique qu'aux booleans.");
+                    ERROR("L'opérateur ! ne s'applique qu'aux booléens");
                     YYABORT;
                 } else {
                     write_not_to_expr(code_inter, next_quad, current_ctx, &num_temp, $2, &$$);
@@ -1065,7 +1037,7 @@ literal:
     | STRING_LIT
             {
                 $$.type = T_STRING;
-                symbole* str = newname_string($1,(*((ctx**)tab_symbole)),&num_temp);
+                symbole* str = newname_string($1,TAB_SYMBOLES,&num_temp);
                 new_qo_name(str->name,&($$.result.qo));                 
             }
     ;
@@ -1075,7 +1047,7 @@ int_literal:
             {
                 $$.type = T_INT;
                 if(-2147483648>$1 || $1>2147483648){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tDécimal hors limites.");
+                    ERROR("Décimal hors limites");
                     YYABORT;
                 }
                 new_qo_vide(&($$.dplc));
@@ -1086,7 +1058,7 @@ int_literal:
                 $$.type = T_INT;
                 printf("%li",$1);
                 if(-2147483648>$1 || $1>2147483648){
-                    yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\tDécimal hors limites.");
+                    ERROR("Décimal hors limites");
                     YYABORT;
                 }
                 new_qo_vide(&($$.dplc));

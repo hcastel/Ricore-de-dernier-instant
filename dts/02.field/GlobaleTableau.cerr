@@ -6,11 +6,11 @@ Programme valide.
 -INT[10]:	gi
 -BOOL[10]:	gb
 -INT[10]:	gi1
--INT[15]:	gi2
--INT[20]:	gi3
+-RIEN[15]:	gi2
+-RIEN[20]:	gi3
 -BOOL[10]:	gb1
--BOOL[15]:	gb2
--BOOL[20]:	gb3
+-RIEN[15]:	gb2
+-RIEN[20]:	gb3
 -VOID():	main
 	-INT:	0TEMP
 	-INT:	1TEMP
