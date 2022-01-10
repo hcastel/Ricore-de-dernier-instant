@@ -15,7 +15,7 @@ int place_pile(char* str, ctx* ctx1);
 void open_write_file(char* file, ctx* tab_symbole, quad* code_inter, int next_quad);
 void print_code_inter(quad* code_inter, int next_quad);
 
-char NOM_GRP[] ="ESCUDIE Erwan, NICOLAZO David, ANDRIANANDRASANA-DINA Vagnona, BASTIEN Théo, CASTEL Hugo";
+char NOMS_GRP[] ="ESCUDIE Erwan, NICOLAZO David, ANDRIANANDRASANA-DINA Vagnona, BASTIEN Théo, CASTEL Hugo";
 
 char* NOMS_TYPES[] = {"Q_ADD","Q_SUB","Q_MULT","Q_DIV","Q_RES","Q_EQ","Q_LESS","Q_GREAT","Q_LESS_EQ","Q_GREAT_EQ","Q_COPY","Q_GOTO","Q_IF","Q_PUSH_CTX","Q_POP_CTX","Q_NEG","Q_BREAK","Q_CONTINUE","Q_DEF_METH","Q_RETURN","Q_END_METH","Q_CALL_METH","Q_PARAM","Q_PRINT"};
 int NUMEROS_TYPES[] = {Q_ADD,Q_SUB,Q_MULT,Q_DIV,Q_RES,Q_EQ,Q_LESS,Q_GREAT,Q_LESS_EQ,Q_GREAT_EQ,Q_COPY,Q_GOTO,Q_IF,Q_PUSH_CTX,Q_POP_CTX,Q_NEG,Q_BREAK,Q_CONTINUE,Q_DEF_METH,Q_RETURN,Q_END_METH,Q_CALL_METH,Q_PARAM,Q_PRINT};
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
 
     for(int i = 1; i < argc; i++){
         if( strcmp(argv[i],"-version")==0 ){
-            printf("%s\n",NOM_GRP);
+            printf("%s\n",NOMS_GRP);
             return 0;
         }
         if( strcmp(argv[i],"-o")==0 ){

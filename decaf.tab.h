@@ -113,7 +113,7 @@ union YYSTYPE
     long int int_val;
 
     // liste de types (typiquement utilisée pour les arguments de fonction)
-    type_liste type_liste;
+    types_liste types_liste;
     // liste contenant l'état d'un bloc (break, return, etc...)
     control_liste control_liste;
     // expr (listes booléennes, entier, etc...)
