@@ -48,12 +48,6 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
-    yyin = fopen(argv[1],"r");
-    if( yyin==NULL ){
-        fprintf(stderr,"Le fichier decaf n'existe pas.\n");
-        return 1;
-    }
-
 
     quad* code_inter = malloc(SIZE_CODE_INTER*sizeof(quad));
     ctx* tab_symbole = NULL;
