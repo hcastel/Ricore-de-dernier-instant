@@ -1,0 +1,63 @@
+	.data
+true:	.asciiz "true"
+false:	.asciiz "false"
+error_str_meth:	.asciiz "**** Erreur d'execution: Fin textuelle de méthode atteinte."
+error_str_tab:	.asciiz "**** Erreur d'execution: Acces tableau hors des bornes."
+gi:	.word 0
+gb:	.word 0
+gi1:	.word 0
+gi2:	.word 0
+gi3:	.word 0
+gi4:	.word 0
+gi5:	.word 0
+gb1:	.word 0
+gb2:	.word 0
+gb3:	.word 0
+gb4:	.word 0
+gb5:	.word 0
+	.text
+WriteInt:
+	li $v0, 1
+	lw $a0, 0($sp)
+	syscall
+	jr $ra
+WriteBool:
+	lw $t0, 0($sp)
+	beqz $t0, labelwbf
+labelwbt:
+	li $v0, 4
+	la $a0, true
+	syscall
+	b labelwbj
+labelwbf:
+	li $v0,4
+	la $a0, false
+	syscall
+labelwbj:
+	jr $ra
+ReadInt:
+	li $v0, 5
+	syscall
+	jr $ra
+label_hors_tab:
+	li $v0, 4
+	la $a0, error_str_tab
+	syscall
+	li $v0, 10
+	syscall
+main:
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	sw $fp, 4($sp)
+	sw $ra, 0($sp)
+	addiu $fp, $sp, 8
+	lw $ra, 0($sp)
+	lw $fp, 4($sp)
+	addiu $sp, $sp, 4
+	addiu $sp, $sp, 4
+	li $v0, 10
+	syscall

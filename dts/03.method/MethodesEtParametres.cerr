@@ -1,0 +1,209 @@
+Programme valide.
+===TAB_SYMBOLE===
+-VOID( INT ):	WriteInt
+-VOID( BOOL ):	WriteBool
+-INT():	ReadInt
+-INT():	fi
+	-INT:	0TEMP
+	-INT:	1TEMP
+
+-BOOL():	fb
+	-INT:	2TEMP
+	-INT:	3TEMP
+
+-VOID( INT ):	fvi
+	-INT:	x
+	-INT:	4TEMP
+	-INT:	5TEMP
+
+-VOID( BOOL ):	fvb
+	-BOOL:	x
+	-INT:	6TEMP
+	-INT:	7TEMP
+
+-INT( INT ):	fii
+	-INT:	x
+	-INT:	8TEMP
+	-INT:	9TEMP
+
+-INT( BOOL ):	fib
+	-BOOL:	x
+	-INT:	10TEMP
+	-INT:	11TEMP
+
+-BOOL( INT ):	fbi
+	-INT:	x
+	-INT:	12TEMP
+	-INT:	13TEMP
+
+-BOOL( BOOL ):	fbb
+	-BOOL:	x
+	-INT:	14TEMP
+	-INT:	15TEMP
+
+-VOID( INT  BOOL ):	fvib
+	-INT:	x
+	-BOOL:	y
+	-INT:	16TEMP
+	-INT:	17TEMP
+
+-INT( BOOL  INT ):	fibi
+	-BOOL:	x
+	-INT:	y
+	-INT:	18TEMP
+	-INT:	19TEMP
+
+-INT( INT  BOOL  INT  INT  BOOL  BOOL  INT ):	fi7
+	-INT:	i0
+	-BOOL:	i1
+	-INT:	i2
+	-INT:	i3
+	-BOOL:	i4
+	-BOOL:	i5
+	-INT:	i6
+	-INT:	20TEMP
+	-INT:	21TEMP
+
+-VOID( INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT  INT ):	fv33
+	-INT:	i0
+	-INT:	i1
+	-INT:	i2
+	-INT:	i3
+	-INT:	i4
+	-INT:	i5
+	-INT:	i6
+	-INT:	i7
+	-INT:	i8
+	-INT:	i9
+	-INT:	ia
+	-INT:	ib
+	-INT:	ic
+	-INT:	id
+	-INT:	ie
+	-INT:	iF
+	-INT:	j0
+	-INT:	j1
+	-INT:	j2
+	-INT:	j3
+	-INT:	j4
+	-INT:	j5
+	-INT:	j6
+	-INT:	j7
+	-INT:	j8
+	-INT:	j9
+	-INT:	ja
+	-INT:	jb
+	-INT:	jc
+	-INT:	jd
+	-INT:	je
+	-INT:	jF
+	-INT:	x
+	-INT:	22TEMP
+	-INT:	23TEMP
+
+-VOID():	main
+	-INT:	24TEMP
+	-INT:	25TEMP
+
+====CODE INTER:====
+0	| Q_PUSH_CTX |
+1	| Q_PUSH_CTX |
+2	| Q_DEF_METH || 1:VAR:fi	|| 2:CST:0	|
+3	| Q_PUSH_CTX |
+4	| Q_POP_CTX |
+5	| Q_GOTO |
+6	| Q_END_METH |
+7	| Q_END_METH || 1:VAR:fi	|| 2:CST:0	|
+8	| Q_POP_CTX |
+9	| Q_PUSH_CTX |
+10	| Q_DEF_METH || 1:VAR:fb	|| 2:CST:0	|
+11	| Q_PUSH_CTX |
+12	| Q_POP_CTX |
+13	| Q_GOTO |
+14	| Q_END_METH |
+15	| Q_END_METH || 1:VAR:fb	|| 2:CST:0	|
+16	| Q_POP_CTX |
+17	| Q_PUSH_CTX |
+18	| Q_DEF_METH || 1:VAR:fvi	|| 2:CST:1	|
+19	| Q_PUSH_CTX |
+20	| Q_POP_CTX |
+21	| Q_GOTO |
+22	| Q_END_METH || 1:VAR:fvi	|| 2:CST:1	|
+23	| Q_POP_CTX |
+24	| Q_PUSH_CTX |
+25	| Q_DEF_METH || 1:VAR:fvb	|| 2:CST:1	|
+26	| Q_PUSH_CTX |
+27	| Q_POP_CTX |
+28	| Q_GOTO |
+29	| Q_END_METH || 1:VAR:fvb	|| 2:CST:1	|
+30	| Q_POP_CTX |
+31	| Q_PUSH_CTX |
+32	| Q_DEF_METH || 1:VAR:fii	|| 2:CST:1	|
+33	| Q_PUSH_CTX |
+34	| Q_POP_CTX |
+35	| Q_GOTO |
+36	| Q_END_METH |
+37	| Q_END_METH || 1:VAR:fii	|| 2:CST:1	|
+38	| Q_POP_CTX |
+39	| Q_PUSH_CTX |
+40	| Q_DEF_METH || 1:VAR:fib	|| 2:CST:1	|
+41	| Q_PUSH_CTX |
+42	| Q_POP_CTX |
+43	| Q_GOTO |
+44	| Q_END_METH |
+45	| Q_END_METH || 1:VAR:fib	|| 2:CST:1	|
+46	| Q_POP_CTX |
+47	| Q_PUSH_CTX |
+48	| Q_DEF_METH || 1:VAR:fbi	|| 2:CST:1	|
+49	| Q_PUSH_CTX |
+50	| Q_POP_CTX |
+51	| Q_GOTO |
+52	| Q_END_METH |
+53	| Q_END_METH || 1:VAR:fbi	|| 2:CST:1	|
+54	| Q_POP_CTX |
+55	| Q_PUSH_CTX |
+56	| Q_DEF_METH || 1:VAR:fbb	|| 2:CST:1	|
+57	| Q_PUSH_CTX |
+58	| Q_POP_CTX |
+59	| Q_GOTO |
+60	| Q_END_METH |
+61	| Q_END_METH || 1:VAR:fbb	|| 2:CST:1	|
+62	| Q_POP_CTX |
+63	| Q_PUSH_CTX |
+64	| Q_DEF_METH || 1:VAR:fvib	|| 2:CST:2	|
+65	| Q_PUSH_CTX |
+66	| Q_POP_CTX |
+67	| Q_GOTO |
+68	| Q_END_METH || 1:VAR:fvib	|| 2:CST:2	|
+69	| Q_POP_CTX |
+70	| Q_PUSH_CTX |
+71	| Q_DEF_METH || 1:VAR:fibi	|| 2:CST:2	|
+72	| Q_PUSH_CTX |
+73	| Q_POP_CTX |
+74	| Q_GOTO |
+75	| Q_END_METH |
+76	| Q_END_METH || 1:VAR:fibi	|| 2:CST:2	|
+77	| Q_POP_CTX |
+78	| Q_PUSH_CTX |
+79	| Q_DEF_METH || 1:VAR:fi7	|| 2:CST:7	|
+80	| Q_PUSH_CTX |
+81	| Q_POP_CTX |
+82	| Q_GOTO |
+83	| Q_END_METH |
+84	| Q_END_METH || 1:VAR:fi7	|| 2:CST:7	|
+85	| Q_POP_CTX |
+86	| Q_PUSH_CTX |
+87	| Q_DEF_METH || 1:VAR:fv33	|| 2:CST:33	|
+88	| Q_PUSH_CTX |
+89	| Q_POP_CTX |
+90	| Q_GOTO |
+91	| Q_END_METH || 1:VAR:fv33	|| 2:CST:33	|
+92	| Q_POP_CTX |
+93	| Q_PUSH_CTX |
+94	| Q_DEF_METH || 1:VAR:main	|| 2:CST:0	|
+95	| Q_PUSH_CTX |
+96	| Q_POP_CTX |
+97	| Q_GOTO |
+98	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|
+99	| Q_POP_CTX |
+100	| Q_POP_CTX |

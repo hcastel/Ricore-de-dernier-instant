@@ -1,0 +1,23 @@
+Programme valide.
+===TAB_SYMBOLE===
+-VOID( INT ):	WriteInt
+-VOID( BOOL ):	WriteBool
+-INT():	ReadInt
+-VOID():	main
+	-INT:	0TEMP
+	-INT:	1TEMP
+		-INT:	x
+		-INT:	2TEMP
+
+====CODE INTER:====
+0	| Q_PUSH_CTX |
+1	| Q_PUSH_CTX |
+2	| Q_DEF_METH || 1:VAR:main	|| 2:CST:0	|
+3	| Q_PUSH_CTX |
+4	| Q_COPY || 1:CST:123	|| 3:VAR:2TEMP	|
+5	| Q_COPY || 1:VAR:2TEMP	|| 3:VAR:x	|
+6	| Q_POP_CTX |
+7	| Q_GOTO |
+8	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|
+9	| Q_POP_CTX |
+10	| Q_POP_CTX |

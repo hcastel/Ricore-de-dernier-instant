@@ -1,0 +1,136 @@
+Programme valide.
+===TAB_SYMBOLE===
+-VOID( INT ):	WriteInt
+-VOID( BOOL ):	WriteBool
+-INT():	ReadInt
+-VOID():	main
+	-INT:	0TEMP
+	-INT:	1TEMP
+		-BOOL:	a
+		-BOOL:	b
+		-BOOL:	c
+		-BOOL:	2TEMP
+		-BOOL:	3TEMP
+		-BOOL:	4TEMP
+		-BOOL:	5TEMP
+		-BOOL:	6TEMP
+		-BOOL:	7TEMP
+		-BOOL:	8TEMP
+		-BOOL:	9TEMP
+		-BOOL:	10TEMP
+		-BOOL:	11TEMP
+		-BOOL:	12TEMP
+		-BOOL:	13TEMP
+		-BOOL:	14TEMP
+		-BOOL:	15TEMP
+		-BOOL:	16TEMP
+		-BOOL:	17TEMP
+		-BOOL:	18TEMP
+		-BOOL:	19TEMP
+
+-STR20:	"true"
+-STR21:	"false"
+-STR22:	"=true\n"
+====CODE INTER:====
+0	| Q_PUSH_CTX |
+1	| Q_PUSH_CTX |
+2	| Q_DEF_METH || 1:VAR:main	|| 2:CST:0	|
+3	| Q_PUSH_CTX |
+4	| Q_GOTO || 3:CST:5	|
+5	| Q_COPY || 1:CST:1	|| 3:VAR:a	|
+6	| Q_GOTO || 3:CST:8	|
+7	| Q_COPY || 1:CST:0	|| 3:VAR:a	|
+8	| Q_GOTO || 3:CST:11	|
+9	| Q_COPY || 1:CST:1	|| 3:VAR:b	|
+10	| Q_GOTO || 3:CST:12	|
+11	| Q_COPY || 1:CST:0	|| 3:VAR:b	|
+12	| Q_GOTO || 3:CST:13	|
+13	| Q_COPY || 1:CST:1	|| 3:VAR:c	|
+14	| Q_GOTO || 3:CST:16	|
+15	| Q_COPY || 1:CST:0	|| 3:VAR:c	|
+16	| Q_COPY || 1:VAR:a	|| 3:VAR:2TEMP	|
+17	| Q_IF || 1:VAR:2TEMP	|| 3:CST:22	|
+18	| Q_GOTO || 3:CST:24	|
+19	| Q_COPY || 1:VAR:b	|| 3:VAR:3TEMP	|
+20	| Q_IF || 1:VAR:3TEMP	|| 3:CST:26	|
+21	| Q_GOTO || 3:CST:28	|
+22	| Q_COPY || 1:CST:1	|| 3:VAR:4TEMP	|
+23	| Q_GOTO || 3:CST:25	|
+24	| Q_COPY || 1:CST:0	|| 3:VAR:4TEMP	|
+25	| Q_GOTO || 3:CST:19	|
+26	| Q_COPY || 1:CST:1	|| 3:VAR:5TEMP	|
+27	| Q_GOTO || 3:CST:29	|
+28	| Q_COPY || 1:CST:0	|| 3:VAR:5TEMP	|
+29	| RIEN || 1:VAR:4TEMP	|| 2:VAR:5TEMP	|| 3:CST:31	|
+30	| Q_GOTO || 3:CST:80	|
+31	| Q_COPY || 1:VAR:b	|| 3:VAR:6TEMP	|
+32	| Q_IF || 1:VAR:6TEMP	|| 3:CST:37	|
+33	| Q_GOTO || 3:CST:39	|
+34	| Q_COPY || 1:VAR:c	|| 3:VAR:7TEMP	|
+35	| Q_IF || 1:VAR:7TEMP	|| 3:CST:41	|
+36	| Q_GOTO || 3:CST:43	|
+37	| Q_COPY || 1:CST:1	|| 3:VAR:8TEMP	|
+38	| Q_GOTO || 3:CST:40	|
+39	| Q_COPY || 1:CST:0	|| 3:VAR:8TEMP	|
+40	| Q_GOTO || 3:CST:34	|
+41	| Q_COPY || 1:CST:1	|| 3:VAR:9TEMP	|
+42	| Q_GOTO || 3:CST:44	|
+43	| Q_COPY || 1:CST:0	|| 3:VAR:9TEMP	|
+44	| RIEN || 1:VAR:8TEMP	|| 2:VAR:9TEMP	|| 3:CST:78	|
+45	| Q_GOTO || 3:CST:80	|
+46	| Q_COPY || 1:VAR:a	|| 3:VAR:10TEMP	|
+47	| Q_IF || 1:VAR:10TEMP	|| 3:CST:50	|
+48	| Q_GOTO || 3:CST:52	|
+49	| Q_GOTO || 3:CST:54	|
+50	| Q_COPY || 1:CST:1	|| 3:VAR:11TEMP	|
+51	| Q_GOTO || 3:CST:53	|
+52	| Q_COPY || 1:CST:0	|| 3:VAR:11TEMP	|
+53	| Q_GOTO || 3:CST:49	|
+54	| Q_COPY || 1:CST:1	|| 3:VAR:12TEMP	|
+55	| Q_GOTO || 3:CST:57	|
+56	| Q_COPY || 1:CST:0	|| 3:VAR:12TEMP	|
+57	| Q_EQ || 1:VAR:11TEMP	|| 2:VAR:12TEMP	|| 3:CST:59	|
+58	| Q_GOTO || 3:CST:62	|
+59	| Q_COPY || 1:VAR:c	|| 3:VAR:13TEMP	|
+60	| Q_IF || 1:VAR:13TEMP	|| 3:CST:82	|
+61	| Q_GOTO || 3:CST:62	|
+62	| Q_COPY || 1:VAR:a	|| 3:VAR:14TEMP	|
+63	| Q_IF || 1:VAR:14TEMP	|| 3:CST:84	|
+64	| Q_GOTO || 3:CST:65	|
+65	| Q_COPY || 1:VAR:c	|| 3:VAR:15TEMP	|
+66	| Q_IF || 1:VAR:15TEMP	|| 3:CST:69	|
+67	| Q_GOTO || 3:CST:71	|
+68	| Q_GOTO || 3:CST:75	|
+69	| Q_COPY || 1:CST:1	|| 3:VAR:16TEMP	|
+70	| Q_GOTO || 3:CST:72	|
+71	| Q_COPY || 1:CST:0	|| 3:VAR:16TEMP	|
+72	| Q_GOTO || 3:CST:68	|
+73	| Q_COPY || 1:CST:1	|| 3:VAR:17TEMP	|
+74	| Q_GOTO || 3:CST:76	|
+75	| Q_COPY || 1:CST:0	|| 3:VAR:17TEMP	|
+76	| Q_EQ || 1:VAR:16TEMP	|| 2:VAR:17TEMP	|| 3:CST:82	|
+77	| Q_GOTO || 3:CST:84	|
+78	| Q_COPY || 1:CST:1	|| 3:VAR:18TEMP	|
+79	| Q_GOTO || 3:CST:81	|
+80	| Q_COPY || 1:CST:0	|| 3:VAR:18TEMP	|
+81	| Q_GOTO || 3:CST:46	|
+82	| Q_COPY || 1:CST:1	|| 3:VAR:19TEMP	|
+83	| Q_GOTO || 3:CST:85	|
+84	| Q_COPY || 1:CST:0	|| 3:VAR:19TEMP	|
+85	| Q_EQ || 1:VAR:18TEMP	|| 2:VAR:19TEMP	|| 3:CST:87	|
+86	| Q_GOTO || 3:CST:92	|
+87	| Q_PUSH_CTX |
+88	| RIEN || 3:VAR:STR20	|
+89	| Q_POP_CTX |
+90	| Q_GOTO || 3:CST:96	|
+91	| Q_GOTO || 3:CST:96	|
+92	| Q_PUSH_CTX |
+93	| RIEN || 3:VAR:STR21	|
+94	| Q_POP_CTX |
+95	| Q_GOTO || 3:CST:96	|
+96	| RIEN || 3:VAR:STR22	|
+97	| Q_POP_CTX |
+98	| Q_GOTO |
+99	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|
+100	| Q_POP_CTX |
+101	| Q_POP_CTX |

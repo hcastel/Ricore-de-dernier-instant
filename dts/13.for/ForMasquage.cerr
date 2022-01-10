@@ -1,0 +1,84 @@
+Programme valide.
+===TAB_SYMBOLE===
+-VOID( INT ):	WriteInt
+-VOID( BOOL ):	WriteBool
+-INT():	ReadInt
+-VOID():	main
+	-INT:	0TEMP
+	-INT:	1TEMP
+		-INT:	i
+		-INT:	si
+		-INT:	sj
+		-INT:	2TEMP
+		-INT:	3TEMP
+		-INT:	4TEMP
+		-INT:	5TEMP
+		-INT:	6TEMP
+		-INT:	13TEMP
+		-INT:	15TEMP
+		-INT:	17TEMP
+			-INT:	i
+			-INT:	12TEMP
+				-INT:	j
+				-INT:	7TEMP
+					-INT:	i
+					-INT:	8TEMP
+					-INT:	9TEMP
+					-INT:	10TEMP
+					-INT:	11TEMP
+
+-STR14:	"=0\n"
+-STR16:	"=0\n"
+-STR18:	"=55\n"
+====CODE INTER:====
+0	| Q_PUSH_CTX |
+1	| Q_PUSH_CTX |
+2	| Q_DEF_METH || 1:VAR:main	|| 2:CST:0	|
+3	| Q_PUSH_CTX |
+4	| Q_COPY || 1:CST:0	|| 3:VAR:2TEMP	|
+5	| Q_COPY || 1:VAR:2TEMP	|| 3:VAR:i	|
+6	| Q_COPY || 1:CST:0	|| 3:VAR:3TEMP	|
+7	| Q_COPY || 1:VAR:3TEMP	|| 3:VAR:si	|
+8	| Q_COPY || 1:CST:0	|| 3:VAR:4TEMP	|
+9	| Q_COPY || 1:VAR:4TEMP	|| 3:VAR:sj	|
+10	| Q_COPY || 1:CST:1	|| 3:VAR:5TEMP	|
+11	| Q_COPY || 1:CST:10	|| 3:VAR:6TEMP	|
+12	| Q_PUSH_CTX |
+13	| Q_COPY || 1:VAR:5TEMP	|| 3:VAR:i	|
+14	| Q_GREAT || 1:VAR:i	|| 2:VAR:6TEMP	|| 3:CST:32	|
+15	| Q_PUSH_CTX |
+16	| Q_COPY || 1:VAR:i	|| 3:VAR:7TEMP	|
+17	| Q_COPY || 1:VAR:7TEMP	|| 3:VAR:j	|
+18	| Q_PUSH_CTX |
+19	| Q_COPY || 1:VAR:i	|| 3:VAR:8TEMP	|
+20	| Q_ADD || 1:VAR:si	|| 2:VAR:8TEMP	|| 3:VAR:9TEMP	|
+21	| Q_COPY || 1:VAR:9TEMP	|| 3:VAR:si	|
+22	| Q_COPY || 1:VAR:j	|| 3:VAR:10TEMP	|
+23	| Q_ADD || 1:VAR:sj	|| 2:VAR:10TEMP	|| 3:VAR:11TEMP	|
+24	| Q_COPY || 1:VAR:11TEMP	|| 3:VAR:sj	|
+25	| Q_POP_CTX |
+26	| Q_GOTO || 3:CST:27	|
+27	| Q_POP_CTX |
+28	| Q_GOTO || 3:CST:29	|
+29	| Q_ADD || 1:CST:1	|| 2:VAR:i	|| 3:VAR:12TEMP	|
+30	| Q_COPY || 1:VAR:12TEMP	|| 3:VAR:i	|
+31	| Q_GOTO || 3:CST:14	|
+32	| Q_POP_CTX |
+33	| Q_GOTO || 3:CST:34	|
+34	| Q_COPY || 1:VAR:i	|| 3:VAR:13TEMP	|
+35	| Q_PARAM || 1:CST:1	|| 3:VAR:13TEMP	|
+36	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
+37	| RIEN || 3:VAR:STR14	|
+38	| Q_COPY || 1:VAR:si	|| 3:VAR:15TEMP	|
+39	| Q_PARAM || 1:CST:1	|| 3:VAR:15TEMP	|
+40	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
+41	| RIEN || 3:VAR:STR16	|
+42	| Q_COPY || 1:VAR:sj	|| 3:VAR:17TEMP	|
+43	| Q_PARAM || 1:CST:1	|| 3:VAR:17TEMP	|
+44	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
+45	| RIEN || 3:VAR:STR18	|
+46	| Q_POP_CTX |
+47	| Q_GOTO |
+48	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|
+49	| Q_POP_CTX |
+50	| Q_POP_CTX |

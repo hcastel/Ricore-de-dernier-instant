@@ -1,0 +1,1346 @@
+	.data
+true:	.asciiz "true"
+false:	.asciiz "false"
+error_str_meth:	.asciiz "**** Erreur d'execution: Fin textuelle de méthode atteinte."
+error_str_tab:	.asciiz "**** Erreur d'execution: Acces tableau hors des bornes."
+in:	.word 0,0,0,0
+t0:	.word 0,0,0,0
+t1:	.word 0,0,0,0
+STR116:	.asciiz "="
+STR119:	.asciiz "\n"
+STR122:	.asciiz "="
+STR125:	.asciiz "\n"
+STR128:	.asciiz "="
+STR131:	.asciiz "\n"
+STR134:	.asciiz "="
+STR137:	.asciiz "\n"
+	.text
+WriteInt:
+	li $v0, 1
+	lw $a0, 0($sp)
+	syscall
+	jr $ra
+WriteBool:
+	lw $t0, 0($sp)
+	beqz $t0, labelwbf
+labelwbt:
+	li $v0, 4
+	la $a0, true
+	syscall
+	b labelwbj
+labelwbf:
+	li $v0,4
+	la $a0, false
+	syscall
+labelwbj:
+	jr $ra
+ReadInt:
+	li $v0, 5
+	syscall
+	jr $ra
+label_hors_tab:
+	li $v0, 4
+	la $a0, error_str_tab
+	syscall
+	li $v0, 10
+	syscall
+main:
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	sw $fp, 4($sp)
+	sw $ra, 0($sp)
+	addiu $fp, $sp, 8
+	addiu $sp, $sp, -4 	#pile <= i
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= j
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 2TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 3TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 4TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 5TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 6TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 7TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 8TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 9TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 10TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 11TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 12TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 13TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 14TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 15TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 16TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 17TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 18TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 19TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 20TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 21TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 22TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 23TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 24TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 25TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 26TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 27TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 28TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 29TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 30TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 31TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 32TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 33TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 34TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 35TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 36TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 37TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 38TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 39TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 40TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 41TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 42TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 43TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 44TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 45TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 46TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 47TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 48TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 49TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 50TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 51TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 52TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 53TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 54TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 55TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 56TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 57TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 58TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 59TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 60TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 61TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 62TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 63TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 64TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 65TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 66TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 67TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 68TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 69TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 70TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 71TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 72TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 73TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 74TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 75TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 76TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 77TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 78TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 79TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 80TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 81TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 82TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 83TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 84TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 85TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 86TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 87TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 88TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 89TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 90TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 91TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 92TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 93TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 94TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 95TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 96TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 97TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 98TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 99TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 100TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 101TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 102TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 103TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 104TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 105TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 106TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 107TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 108TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 109TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 110TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 111TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 112TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 113TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 114TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 115TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 117TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 118TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 120TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 121TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 123TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 124TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 126TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 127TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 129TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 130TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 132TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 133TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 135TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 136TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	li $t0, 0
+	la $t1, 508($sp)
+	sw $t0, 0($t1)
+	li $t0, 11
+	la $t1, 504($sp)
+	sw $t0, 0($t1)
+	lw $t0, 504($sp)
+	lw $t1, 508($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 508($sp)
+	la $t2, in
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 1
+	la $t1, 500($sp)
+	sw $t0, 0($t1)
+	li $t0, 12
+	la $t1, 496($sp)
+	sw $t0, 0($t1)
+	lw $t0, 496($sp)
+	lw $t1, 500($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 500($sp)
+	la $t2, in
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 2
+	la $t1, 492($sp)
+	sw $t0, 0($t1)
+	li $t0, 21
+	la $t1, 488($sp)
+	sw $t0, 0($t1)
+	lw $t0, 488($sp)
+	lw $t1, 492($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 492($sp)
+	la $t2, in
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 3
+	la $t1, 484($sp)
+	sw $t0, 0($t1)
+	li $t0, 22
+	la $t1, 480($sp)
+	sw $t0, 0($t1)
+	lw $t0, 480($sp)
+	lw $t1, 484($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 484($sp)
+	la $t2, in
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 0
+	la $t1, 476($sp)
+	sw $t0, 0($t1)
+	lw $t0, 476($sp)
+	la $t1, 516($sp)
+	sw $t0, 0($t1)
+	li $t0, 0
+	la $t1, 472($sp)
+	sw $t0, 0($t1)
+	lw $t0, 472($sp)
+	la $t1, 512($sp)
+	sw $t0, 0($t1)
+	li $t0, 2
+	la $t1, 468($sp)
+	sw $t0, 0($t1)
+	lw $t0, 512($sp)
+	la $t1, 464($sp)
+	sw $t0, 0($t1)
+	lw $t0, 468($sp)
+	lw $t1, 464($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 460($sp)
+	lw $t0, 516($sp)
+	la $t1, 456($sp)
+	sw $t0, 0($t1)
+	lw $t0, 460($sp)
+	lw $t1, 456($sp)
+	add $t0, $t0, $t1
+	sw $t0, 452($sp)
+	li $t0, 2
+	la $t1, 448($sp)
+	sw $t0, 0($t1)
+	lw $t0, 516($sp)
+	la $t1, 444($sp)
+	sw $t0, 0($t1)
+	lw $t0, 448($sp)
+	lw $t1, 444($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 440($sp)
+	lw $t0, 512($sp)
+	la $t1, 436($sp)
+	sw $t0, 0($t1)
+	lw $t0, 440($sp)
+	lw $t1, 436($sp)
+	add $t0, $t0, $t1
+	sw $t0, 432($sp)
+	lw $t0, 432($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 432($sp)
+	la $t1, in
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 428($sp)
+	sw $t0, 0($t1)
+	lw $t0, 428($sp)
+	lw $t1, 452($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 452($sp)
+	la $t2, t0
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 0
+	la $t1, 424($sp)
+	sw $t0, 0($t1)
+	lw $t0, 424($sp)
+	la $t1, 516($sp)
+	sw $t0, 0($t1)
+	li $t0, 1
+	la $t1, 420($sp)
+	sw $t0, 0($t1)
+	lw $t0, 420($sp)
+	la $t1, 512($sp)
+	sw $t0, 0($t1)
+	li $t0, 2
+	la $t1, 416($sp)
+	sw $t0, 0($t1)
+	lw $t0, 512($sp)
+	la $t1, 412($sp)
+	sw $t0, 0($t1)
+	lw $t0, 416($sp)
+	lw $t1, 412($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 408($sp)
+	lw $t0, 516($sp)
+	la $t1, 404($sp)
+	sw $t0, 0($t1)
+	lw $t0, 408($sp)
+	lw $t1, 404($sp)
+	add $t0, $t0, $t1
+	sw $t0, 400($sp)
+	li $t0, 2
+	la $t1, 396($sp)
+	sw $t0, 0($t1)
+	lw $t0, 516($sp)
+	la $t1, 392($sp)
+	sw $t0, 0($t1)
+	lw $t0, 396($sp)
+	lw $t1, 392($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 388($sp)
+	lw $t0, 512($sp)
+	la $t1, 384($sp)
+	sw $t0, 0($t1)
+	lw $t0, 388($sp)
+	lw $t1, 384($sp)
+	add $t0, $t0, $t1
+	sw $t0, 380($sp)
+	lw $t0, 380($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 380($sp)
+	la $t1, in
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 376($sp)
+	sw $t0, 0($t1)
+	lw $t0, 376($sp)
+	lw $t1, 400($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 400($sp)
+	la $t2, t0
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 1
+	la $t1, 372($sp)
+	sw $t0, 0($t1)
+	lw $t0, 372($sp)
+	la $t1, 516($sp)
+	sw $t0, 0($t1)
+	li $t0, 0
+	la $t1, 368($sp)
+	sw $t0, 0($t1)
+	lw $t0, 368($sp)
+	la $t1, 512($sp)
+	sw $t0, 0($t1)
+	li $t0, 2
+	la $t1, 364($sp)
+	sw $t0, 0($t1)
+	lw $t0, 512($sp)
+	la $t1, 360($sp)
+	sw $t0, 0($t1)
+	lw $t0, 364($sp)
+	lw $t1, 360($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 356($sp)
+	lw $t0, 516($sp)
+	la $t1, 352($sp)
+	sw $t0, 0($t1)
+	lw $t0, 356($sp)
+	lw $t1, 352($sp)
+	add $t0, $t0, $t1
+	sw $t0, 348($sp)
+	li $t0, 2
+	la $t1, 344($sp)
+	sw $t0, 0($t1)
+	lw $t0, 516($sp)
+	la $t1, 340($sp)
+	sw $t0, 0($t1)
+	lw $t0, 344($sp)
+	lw $t1, 340($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 336($sp)
+	lw $t0, 512($sp)
+	la $t1, 332($sp)
+	sw $t0, 0($t1)
+	lw $t0, 336($sp)
+	lw $t1, 332($sp)
+	add $t0, $t0, $t1
+	sw $t0, 328($sp)
+	lw $t0, 328($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 328($sp)
+	la $t1, in
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 324($sp)
+	sw $t0, 0($t1)
+	lw $t0, 324($sp)
+	lw $t1, 348($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 348($sp)
+	la $t2, t0
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 1
+	la $t1, 320($sp)
+	sw $t0, 0($t1)
+	lw $t0, 320($sp)
+	la $t1, 516($sp)
+	sw $t0, 0($t1)
+	li $t0, 1
+	la $t1, 316($sp)
+	sw $t0, 0($t1)
+	lw $t0, 316($sp)
+	la $t1, 512($sp)
+	sw $t0, 0($t1)
+	li $t0, 2
+	la $t1, 312($sp)
+	sw $t0, 0($t1)
+	lw $t0, 512($sp)
+	la $t1, 308($sp)
+	sw $t0, 0($t1)
+	lw $t0, 312($sp)
+	lw $t1, 308($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 304($sp)
+	lw $t0, 516($sp)
+	la $t1, 300($sp)
+	sw $t0, 0($t1)
+	lw $t0, 304($sp)
+	lw $t1, 300($sp)
+	add $t0, $t0, $t1
+	sw $t0, 296($sp)
+	li $t0, 2
+	la $t1, 292($sp)
+	sw $t0, 0($t1)
+	lw $t0, 516($sp)
+	la $t1, 288($sp)
+	sw $t0, 0($t1)
+	lw $t0, 292($sp)
+	lw $t1, 288($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 284($sp)
+	lw $t0, 512($sp)
+	la $t1, 280($sp)
+	sw $t0, 0($t1)
+	lw $t0, 284($sp)
+	lw $t1, 280($sp)
+	add $t0, $t0, $t1
+	sw $t0, 276($sp)
+	lw $t0, 276($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 276($sp)
+	la $t1, in
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 272($sp)
+	sw $t0, 0($t1)
+	lw $t0, 272($sp)
+	lw $t1, 296($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 296($sp)
+	la $t2, t0
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 0
+	la $t1, 268($sp)
+	sw $t0, 0($t1)
+	lw $t0, 268($sp)
+	la $t1, 516($sp)
+	sw $t0, 0($t1)
+	li $t0, 0
+	la $t1, 264($sp)
+	sw $t0, 0($t1)
+	lw $t0, 264($sp)
+	la $t1, 512($sp)
+	sw $t0, 0($t1)
+	li $t0, 2
+	la $t1, 260($sp)
+	sw $t0, 0($t1)
+	lw $t0, 512($sp)
+	la $t1, 256($sp)
+	sw $t0, 0($t1)
+	lw $t0, 260($sp)
+	lw $t1, 256($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 252($sp)
+	lw $t0, 516($sp)
+	la $t1, 248($sp)
+	sw $t0, 0($t1)
+	lw $t0, 252($sp)
+	lw $t1, 248($sp)
+	add $t0, $t0, $t1
+	sw $t0, 244($sp)
+	li $t0, 2
+	la $t1, 240($sp)
+	sw $t0, 0($t1)
+	lw $t0, 516($sp)
+	la $t1, 236($sp)
+	sw $t0, 0($t1)
+	lw $t0, 240($sp)
+	lw $t1, 236($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 232($sp)
+	lw $t0, 512($sp)
+	la $t1, 228($sp)
+	sw $t0, 0($t1)
+	lw $t0, 232($sp)
+	lw $t1, 228($sp)
+	add $t0, $t0, $t1
+	sw $t0, 224($sp)
+	lw $t0, 224($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 224($sp)
+	la $t1, t0
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 220($sp)
+	sw $t0, 0($t1)
+	lw $t0, 220($sp)
+	lw $t1, 244($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 244($sp)
+	la $t2, t1
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 0
+	la $t1, 216($sp)
+	sw $t0, 0($t1)
+	lw $t0, 216($sp)
+	la $t1, 516($sp)
+	sw $t0, 0($t1)
+	li $t0, 1
+	la $t1, 212($sp)
+	sw $t0, 0($t1)
+	lw $t0, 212($sp)
+	la $t1, 512($sp)
+	sw $t0, 0($t1)
+	li $t0, 2
+	la $t1, 208($sp)
+	sw $t0, 0($t1)
+	lw $t0, 512($sp)
+	la $t1, 204($sp)
+	sw $t0, 0($t1)
+	lw $t0, 208($sp)
+	lw $t1, 204($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 200($sp)
+	lw $t0, 516($sp)
+	la $t1, 196($sp)
+	sw $t0, 0($t1)
+	lw $t0, 200($sp)
+	lw $t1, 196($sp)
+	add $t0, $t0, $t1
+	sw $t0, 192($sp)
+	li $t0, 2
+	la $t1, 188($sp)
+	sw $t0, 0($t1)
+	lw $t0, 516($sp)
+	la $t1, 184($sp)
+	sw $t0, 0($t1)
+	lw $t0, 188($sp)
+	lw $t1, 184($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 180($sp)
+	lw $t0, 512($sp)
+	la $t1, 176($sp)
+	sw $t0, 0($t1)
+	lw $t0, 180($sp)
+	lw $t1, 176($sp)
+	add $t0, $t0, $t1
+	sw $t0, 172($sp)
+	lw $t0, 172($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 172($sp)
+	la $t1, t0
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 168($sp)
+	sw $t0, 0($t1)
+	lw $t0, 168($sp)
+	lw $t1, 192($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 192($sp)
+	la $t2, t1
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 1
+	la $t1, 164($sp)
+	sw $t0, 0($t1)
+	lw $t0, 164($sp)
+	la $t1, 516($sp)
+	sw $t0, 0($t1)
+	li $t0, 0
+	la $t1, 160($sp)
+	sw $t0, 0($t1)
+	lw $t0, 160($sp)
+	la $t1, 512($sp)
+	sw $t0, 0($t1)
+	li $t0, 2
+	la $t1, 156($sp)
+	sw $t0, 0($t1)
+	lw $t0, 512($sp)
+	la $t1, 152($sp)
+	sw $t0, 0($t1)
+	lw $t0, 156($sp)
+	lw $t1, 152($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 148($sp)
+	lw $t0, 516($sp)
+	la $t1, 144($sp)
+	sw $t0, 0($t1)
+	lw $t0, 148($sp)
+	lw $t1, 144($sp)
+	add $t0, $t0, $t1
+	sw $t0, 140($sp)
+	li $t0, 2
+	la $t1, 136($sp)
+	sw $t0, 0($t1)
+	lw $t0, 516($sp)
+	la $t1, 132($sp)
+	sw $t0, 0($t1)
+	lw $t0, 136($sp)
+	lw $t1, 132($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 128($sp)
+	lw $t0, 512($sp)
+	la $t1, 124($sp)
+	sw $t0, 0($t1)
+	lw $t0, 128($sp)
+	lw $t1, 124($sp)
+	add $t0, $t0, $t1
+	sw $t0, 120($sp)
+	lw $t0, 120($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 120($sp)
+	la $t1, t0
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 116($sp)
+	sw $t0, 0($t1)
+	lw $t0, 116($sp)
+	lw $t1, 140($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 140($sp)
+	la $t2, t1
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 1
+	la $t1, 112($sp)
+	sw $t0, 0($t1)
+	lw $t0, 112($sp)
+	la $t1, 516($sp)
+	sw $t0, 0($t1)
+	li $t0, 1
+	la $t1, 108($sp)
+	sw $t0, 0($t1)
+	lw $t0, 108($sp)
+	la $t1, 512($sp)
+	sw $t0, 0($t1)
+	li $t0, 2
+	la $t1, 104($sp)
+	sw $t0, 0($t1)
+	lw $t0, 512($sp)
+	la $t1, 100($sp)
+	sw $t0, 0($t1)
+	lw $t0, 104($sp)
+	lw $t1, 100($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 96($sp)
+	lw $t0, 516($sp)
+	la $t1, 92($sp)
+	sw $t0, 0($t1)
+	lw $t0, 96($sp)
+	lw $t1, 92($sp)
+	add $t0, $t0, $t1
+	sw $t0, 88($sp)
+	li $t0, 2
+	la $t1, 84($sp)
+	sw $t0, 0($t1)
+	lw $t0, 516($sp)
+	la $t1, 80($sp)
+	sw $t0, 0($t1)
+	lw $t0, 84($sp)
+	lw $t1, 80($sp)
+	mul $t0, $t0, $t1
+	sw $t0, 76($sp)
+	lw $t0, 512($sp)
+	la $t1, 72($sp)
+	sw $t0, 0($t1)
+	lw $t0, 76($sp)
+	lw $t1, 72($sp)
+	add $t0, $t0, $t1
+	sw $t0, 68($sp)
+	lw $t0, 68($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 68($sp)
+	la $t1, t0
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 64($sp)
+	sw $t0, 0($t1)
+	lw $t0, 64($sp)
+	lw $t1, 88($sp)
+	bge $t1, 4, label_hors_tab
+	blt $t1, 0, label_hors_tab
+	lw $t1, 88($sp)
+	la $t2, t1
+	mul $t1, $t1, 4
+	add $t1, $t1, $t2
+	sw $t0, 0($t1)
+	li $t0, 0
+	la $t1, 60($sp)
+	sw $t0, 0($t1)
+	lw $t0, 60($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 60($sp)
+	la $t1, t1
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 56($sp)
+	sw $t0, 0($t1)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	lw $t0, 60($sp)
+	sw $t0, 0($sp)
+	jal WriteInt
+	addiu $sp, $sp, 4
+	li $v0, 4
+	la $a0, STR116
+	syscall
+	li $t0, 0
+	la $t1, 52($sp)
+	sw $t0, 0($t1)
+	lw $t0, 52($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 52($sp)
+	la $t1, in
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 48($sp)
+	sw $t0, 0($t1)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	lw $t0, 52($sp)
+	sw $t0, 0($sp)
+	jal WriteInt
+	addiu $sp, $sp, 4
+	li $v0, 4
+	la $a0, STR119
+	syscall
+	li $t0, 1
+	la $t1, 44($sp)
+	sw $t0, 0($t1)
+	lw $t0, 44($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 44($sp)
+	la $t1, t1
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 40($sp)
+	sw $t0, 0($t1)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	lw $t0, 44($sp)
+	sw $t0, 0($sp)
+	jal WriteInt
+	addiu $sp, $sp, 4
+	li $v0, 4
+	la $a0, STR122
+	syscall
+	li $t0, 1
+	la $t1, 36($sp)
+	sw $t0, 0($t1)
+	lw $t0, 36($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 36($sp)
+	la $t1, in
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 32($sp)
+	sw $t0, 0($t1)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	lw $t0, 36($sp)
+	sw $t0, 0($sp)
+	jal WriteInt
+	addiu $sp, $sp, 4
+	li $v0, 4
+	la $a0, STR125
+	syscall
+	li $t0, 2
+	la $t1, 28($sp)
+	sw $t0, 0($t1)
+	lw $t0, 28($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 28($sp)
+	la $t1, t1
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 24($sp)
+	sw $t0, 0($t1)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	lw $t0, 28($sp)
+	sw $t0, 0($sp)
+	jal WriteInt
+	addiu $sp, $sp, 4
+	li $v0, 4
+	la $a0, STR128
+	syscall
+	li $t0, 2
+	la $t1, 20($sp)
+	sw $t0, 0($t1)
+	lw $t0, 20($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 20($sp)
+	la $t1, in
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 16($sp)
+	sw $t0, 0($t1)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	lw $t0, 20($sp)
+	sw $t0, 0($sp)
+	jal WriteInt
+	addiu $sp, $sp, 4
+	li $v0, 4
+	la $a0, STR131
+	syscall
+	li $t0, 3
+	la $t1, 12($sp)
+	sw $t0, 0($t1)
+	lw $t0, 12($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 12($sp)
+	la $t1, t1
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 8($sp)
+	sw $t0, 0($t1)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	lw $t0, 12($sp)
+	sw $t0, 0($sp)
+	jal WriteInt
+	addiu $sp, $sp, 4
+	li $v0, 4
+	la $a0, STR134
+	syscall
+	li $t0, 3
+	la $t1, 4($sp)
+	sw $t0, 0($t1)
+	lw $t0, 4($sp)
+	bge $t0, 4, label_hors_tab
+	blt $t0, 0, label_hors_tab
+	lw $t0, 4($sp)
+	la $t1, in
+	mul $t0, $t0, 4
+	add $t1, $t1, $t0
+	lw $t0, 0($t1)
+	la $t1, 0($sp)
+	sw $t0, 0($t1)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	lw $t0, 4($sp)
+	sw $t0, 0($sp)
+	jal WriteInt
+	addiu $sp, $sp, 4
+	li $v0, 4
+	la $a0, STR137
+	syscall
+	addiu $sp, $sp, 4 	#pile => i
+	addiu $sp, $sp, 4 	#pile => j
+	addiu $sp, $sp, 4 	#pile => 2TEMP
+	addiu $sp, $sp, 4 	#pile => 3TEMP
+	addiu $sp, $sp, 4 	#pile => 4TEMP
+	addiu $sp, $sp, 4 	#pile => 5TEMP
+	addiu $sp, $sp, 4 	#pile => 6TEMP
+	addiu $sp, $sp, 4 	#pile => 7TEMP
+	addiu $sp, $sp, 4 	#pile => 8TEMP
+	addiu $sp, $sp, 4 	#pile => 9TEMP
+	addiu $sp, $sp, 4 	#pile => 10TEMP
+	addiu $sp, $sp, 4 	#pile => 11TEMP
+	addiu $sp, $sp, 4 	#pile => 12TEMP
+	addiu $sp, $sp, 4 	#pile => 13TEMP
+	addiu $sp, $sp, 4 	#pile => 14TEMP
+	addiu $sp, $sp, 4 	#pile => 15TEMP
+	addiu $sp, $sp, 4 	#pile => 16TEMP
+	addiu $sp, $sp, 4 	#pile => 17TEMP
+	addiu $sp, $sp, 4 	#pile => 18TEMP
+	addiu $sp, $sp, 4 	#pile => 19TEMP
+	addiu $sp, $sp, 4 	#pile => 20TEMP
+	addiu $sp, $sp, 4 	#pile => 21TEMP
+	addiu $sp, $sp, 4 	#pile => 22TEMP
+	addiu $sp, $sp, 4 	#pile => 23TEMP
+	addiu $sp, $sp, 4 	#pile => 24TEMP
+	addiu $sp, $sp, 4 	#pile => 25TEMP
+	addiu $sp, $sp, 4 	#pile => 26TEMP
+	addiu $sp, $sp, 4 	#pile => 27TEMP
+	addiu $sp, $sp, 4 	#pile => 28TEMP
+	addiu $sp, $sp, 4 	#pile => 29TEMP
+	addiu $sp, $sp, 4 	#pile => 30TEMP
+	addiu $sp, $sp, 4 	#pile => 31TEMP
+	addiu $sp, $sp, 4 	#pile => 32TEMP
+	addiu $sp, $sp, 4 	#pile => 33TEMP
+	addiu $sp, $sp, 4 	#pile => 34TEMP
+	addiu $sp, $sp, 4 	#pile => 35TEMP
+	addiu $sp, $sp, 4 	#pile => 36TEMP
+	addiu $sp, $sp, 4 	#pile => 37TEMP
+	addiu $sp, $sp, 4 	#pile => 38TEMP
+	addiu $sp, $sp, 4 	#pile => 39TEMP
+	addiu $sp, $sp, 4 	#pile => 40TEMP
+	addiu $sp, $sp, 4 	#pile => 41TEMP
+	addiu $sp, $sp, 4 	#pile => 42TEMP
+	addiu $sp, $sp, 4 	#pile => 43TEMP
+	addiu $sp, $sp, 4 	#pile => 44TEMP
+	addiu $sp, $sp, 4 	#pile => 45TEMP
+	addiu $sp, $sp, 4 	#pile => 46TEMP
+	addiu $sp, $sp, 4 	#pile => 47TEMP
+	addiu $sp, $sp, 4 	#pile => 48TEMP
+	addiu $sp, $sp, 4 	#pile => 49TEMP
+	addiu $sp, $sp, 4 	#pile => 50TEMP
+	addiu $sp, $sp, 4 	#pile => 51TEMP
+	addiu $sp, $sp, 4 	#pile => 52TEMP
+	addiu $sp, $sp, 4 	#pile => 53TEMP
+	addiu $sp, $sp, 4 	#pile => 54TEMP
+	addiu $sp, $sp, 4 	#pile => 55TEMP
+	addiu $sp, $sp, 4 	#pile => 56TEMP
+	addiu $sp, $sp, 4 	#pile => 57TEMP
+	addiu $sp, $sp, 4 	#pile => 58TEMP
+	addiu $sp, $sp, 4 	#pile => 59TEMP
+	addiu $sp, $sp, 4 	#pile => 60TEMP
+	addiu $sp, $sp, 4 	#pile => 61TEMP
+	addiu $sp, $sp, 4 	#pile => 62TEMP
+	addiu $sp, $sp, 4 	#pile => 63TEMP
+	addiu $sp, $sp, 4 	#pile => 64TEMP
+	addiu $sp, $sp, 4 	#pile => 65TEMP
+	addiu $sp, $sp, 4 	#pile => 66TEMP
+	addiu $sp, $sp, 4 	#pile => 67TEMP
+	addiu $sp, $sp, 4 	#pile => 68TEMP
+	addiu $sp, $sp, 4 	#pile => 69TEMP
+	addiu $sp, $sp, 4 	#pile => 70TEMP
+	addiu $sp, $sp, 4 	#pile => 71TEMP
+	addiu $sp, $sp, 4 	#pile => 72TEMP
+	addiu $sp, $sp, 4 	#pile => 73TEMP
+	addiu $sp, $sp, 4 	#pile => 74TEMP
+	addiu $sp, $sp, 4 	#pile => 75TEMP
+	addiu $sp, $sp, 4 	#pile => 76TEMP
+	addiu $sp, $sp, 4 	#pile => 77TEMP
+	addiu $sp, $sp, 4 	#pile => 78TEMP
+	addiu $sp, $sp, 4 	#pile => 79TEMP
+	addiu $sp, $sp, 4 	#pile => 80TEMP
+	addiu $sp, $sp, 4 	#pile => 81TEMP
+	addiu $sp, $sp, 4 	#pile => 82TEMP
+	addiu $sp, $sp, 4 	#pile => 83TEMP
+	addiu $sp, $sp, 4 	#pile => 84TEMP
+	addiu $sp, $sp, 4 	#pile => 85TEMP
+	addiu $sp, $sp, 4 	#pile => 86TEMP
+	addiu $sp, $sp, 4 	#pile => 87TEMP
+	addiu $sp, $sp, 4 	#pile => 88TEMP
+	addiu $sp, $sp, 4 	#pile => 89TEMP
+	addiu $sp, $sp, 4 	#pile => 90TEMP
+	addiu $sp, $sp, 4 	#pile => 91TEMP
+	addiu $sp, $sp, 4 	#pile => 92TEMP
+	addiu $sp, $sp, 4 	#pile => 93TEMP
+	addiu $sp, $sp, 4 	#pile => 94TEMP
+	addiu $sp, $sp, 4 	#pile => 95TEMP
+	addiu $sp, $sp, 4 	#pile => 96TEMP
+	addiu $sp, $sp, 4 	#pile => 97TEMP
+	addiu $sp, $sp, 4 	#pile => 98TEMP
+	addiu $sp, $sp, 4 	#pile => 99TEMP
+	addiu $sp, $sp, 4 	#pile => 100TEMP
+	addiu $sp, $sp, 4 	#pile => 101TEMP
+	addiu $sp, $sp, 4 	#pile => 102TEMP
+	addiu $sp, $sp, 4 	#pile => 103TEMP
+	addiu $sp, $sp, 4 	#pile => 104TEMP
+	addiu $sp, $sp, 4 	#pile => 105TEMP
+	addiu $sp, $sp, 4 	#pile => 106TEMP
+	addiu $sp, $sp, 4 	#pile => 107TEMP
+	addiu $sp, $sp, 4 	#pile => 108TEMP
+	addiu $sp, $sp, 4 	#pile => 109TEMP
+	addiu $sp, $sp, 4 	#pile => 110TEMP
+	addiu $sp, $sp, 4 	#pile => 111TEMP
+	addiu $sp, $sp, 4 	#pile => 112TEMP
+	addiu $sp, $sp, 4 	#pile => 113TEMP
+	addiu $sp, $sp, 4 	#pile => 114TEMP
+	addiu $sp, $sp, 4 	#pile => 115TEMP
+	addiu $sp, $sp, 4 	#pile => 117TEMP
+	addiu $sp, $sp, 4 	#pile => 118TEMP
+	addiu $sp, $sp, 4 	#pile => 120TEMP
+	addiu $sp, $sp, 4 	#pile => 121TEMP
+	addiu $sp, $sp, 4 	#pile => 123TEMP
+	addiu $sp, $sp, 4 	#pile => 124TEMP
+	addiu $sp, $sp, 4 	#pile => 126TEMP
+	addiu $sp, $sp, 4 	#pile => 127TEMP
+	addiu $sp, $sp, 4 	#pile => 129TEMP
+	addiu $sp, $sp, 4 	#pile => 130TEMP
+	addiu $sp, $sp, 4 	#pile => 132TEMP
+	addiu $sp, $sp, 4 	#pile => 133TEMP
+	addiu $sp, $sp, 4 	#pile => 135TEMP
+	addiu $sp, $sp, 4 	#pile => 136TEMP
+	lw $ra, 0($sp)
+	lw $fp, 4($sp)
+	addiu $sp, $sp, 4
+	addiu $sp, $sp, 4
+	li $v0, 10
+	syscall

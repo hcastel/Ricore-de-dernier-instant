@@ -1,0 +1,135 @@
+	.data
+true:	.asciiz "true"
+false:	.asciiz "false"
+error_str_meth:	.asciiz "**** Erreur d'execution: Fin textuelle de méthode atteinte."
+error_str_tab:	.asciiz "**** Erreur d'execution: Acces tableau hors des bornes."
+STR7:	.asciiz "true"
+STR8:	.asciiz "false"
+STR9:	.asciiz "=true\n"
+	.text
+WriteInt:
+	li $v0, 1
+	lw $a0, 0($sp)
+	syscall
+	jr $ra
+WriteBool:
+	lw $t0, 0($sp)
+	beqz $t0, labelwbf
+labelwbt:
+	li $v0, 4
+	la $a0, true
+	syscall
+	b labelwbj
+labelwbf:
+	li $v0,4
+	la $a0, false
+	syscall
+labelwbj:
+	jr $ra
+ReadInt:
+	li $v0, 5
+	syscall
+	jr $ra
+label_hors_tab:
+	li $v0, 4
+	la $a0, error_str_tab
+	syscall
+	li $v0, 10
+	syscall
+main:
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4
+	li $t0, 0
+	sw $t0, 0($sp)
+	sw $fp, 4($sp)
+	sw $ra, 0($sp)
+	addiu $fp, $sp, 8
+	addiu $sp, $sp, -4 	#pile <= x
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 2TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 3TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 4TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 5TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	addiu $sp, $sp, -4 	#pile <= 6TEMP
+	li $t0, 0
+	sw $t0, 0($sp)
+	li $t0, 17
+	la $t1, 16($sp)
+	sw $t0, 0($t1)
+	lw $t0, 16($sp)
+	la $t1, 20($sp)
+	sw $t0, 0($t1)
+	lw $t0, 20($sp)
+	la $t1, 12($sp)
+	sw $t0, 0($t1)
+	li $t0, 42
+	la $t1, 8($sp)
+	sw $t0, 0($t1)
+	lw $t0, 12($sp)
+	lw $t1, 8($sp)
+	ble $t0, $t1, label11
+	b label13
+label10:
+	b label17
+label11:
+	li $t0, 1
+	la $t1, 4($sp)
+	sw $t0, 0($t1)
+	b label14
+label13:
+	li $t0, 0
+	la $t1, 4($sp)
+	sw $t0, 0($t1)
+label14:
+	b label10
+	li $t0, 1
+	la $t1, 0($sp)
+	sw $t0, 0($t1)
+	b label18
+label17:
+	li $t0, 0
+	la $t1, 0($sp)
+	sw $t0, 0($t1)
+label18:
+	lw $t0, 4($sp)
+	lw $t1, 0($sp)
+	bne $t0, $t1, label20
+	b label25
+label20:
+	li $v0, 4
+	la $a0, STR7
+	syscall
+	b label29
+	b label29
+label25:
+	li $v0, 4
+	la $a0, STR8
+	syscall
+	b label29
+label29:
+	li $v0, 4
+	la $a0, STR9
+	syscall
+	addiu $sp, $sp, 4 	#pile => x
+	addiu $sp, $sp, 4 	#pile => 2TEMP
+	addiu $sp, $sp, 4 	#pile => 3TEMP
+	addiu $sp, $sp, 4 	#pile => 4TEMP
+	addiu $sp, $sp, 4 	#pile => 5TEMP
+	addiu $sp, $sp, 4 	#pile => 6TEMP
+	lw $ra, 0($sp)
+	lw $fp, 4($sp)
+	addiu $sp, $sp, 4
+	addiu $sp, $sp, 4
+	li $v0, 10
+	syscall

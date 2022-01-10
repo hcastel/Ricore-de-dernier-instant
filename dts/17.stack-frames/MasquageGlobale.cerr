@@ -1,0 +1,48 @@
+Programme valide.
+===TAB_SYMBOLE===
+-VOID( INT ):	WriteInt
+-VOID( BOOL ):	WriteBool
+-INT():	ReadInt
+-INT:	g
+-VOID( INT ):	f
+	-INT:	g
+	-INT:	0TEMP
+	-INT:	1TEMP
+		-INT:	2TEMP
+
+-VOID():	main
+	-INT:	3TEMP
+	-INT:	4TEMP
+		-INT:	5TEMP
+		-INT:	6TEMP
+		-INT:	7TEMP
+
+-STR8:	"=17\n"
+====CODE INTER:====
+0	| Q_PUSH_CTX |
+1	| Q_PUSH_CTX |
+2	| Q_DEF_METH || 1:VAR:f	|| 2:CST:1	|
+3	| Q_PUSH_CTX |
+4	| Q_COPY || 1:CST:42	|| 3:VAR:2TEMP	|
+5	| Q_COPY || 1:VAR:2TEMP	|| 3:VAR:g	|
+6	| Q_POP_CTX |
+7	| Q_GOTO |
+8	| Q_END_METH || 1:VAR:f	|| 2:CST:1	|
+9	| Q_POP_CTX |
+10	| Q_PUSH_CTX |
+11	| Q_DEF_METH || 1:VAR:main	|| 2:CST:0	|
+12	| Q_PUSH_CTX |
+13	| Q_COPY || 1:CST:17	|| 3:VAR:5TEMP	|
+14	| Q_COPY || 1:VAR:5TEMP	|| 3:VAR:g	|
+15	| Q_COPY || 1:CST:0	|| 3:VAR:6TEMP	|
+16	| Q_PARAM || 1:CST:1	|| 3:VAR:6TEMP	|
+17	| Q_CALL_METH || 1:VAR:f	|| 2:CST:1	|
+18	| Q_COPY || 1:VAR:g	|| 3:VAR:7TEMP	|
+19	| Q_PARAM || 1:CST:1	|| 3:VAR:7TEMP	|
+20	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
+21	| RIEN || 3:VAR:STR8	|
+22	| Q_POP_CTX |
+23	| Q_GOTO |
+24	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|
+25	| Q_POP_CTX |
+26	| Q_POP_CTX |

@@ -1,0 +1,67 @@
+Programme valide.
+===TAB_SYMBOLE===
+-VOID( INT ):	WriteInt
+-VOID( BOOL ):	WriteBool
+-INT():	ReadInt
+-INT:	c
+-BOOL():	vrai
+	-INT:	0TEMP
+	-INT:	1TEMP
+		-INT:	2TEMP
+		-BOOL:	3TEMP
+
+-VOID():	main
+	-INT:	4TEMP
+	-INT:	5TEMP
+		-INT:	x
+		-INT:	6TEMP
+		-INT:	7TEMP
+		-INT:	8TEMP
+		-INT:	9TEMP
+		-BOOL:	10TEMP
+		-INT:	11TEMP
+
+-STR12:	"=0\n"
+====CODE INTER:====
+0	| Q_PUSH_CTX |
+1	| Q_PUSH_CTX |
+2	| Q_DEF_METH || 1:VAR:vrai	|| 2:CST:0	|
+3	| Q_PUSH_CTX |
+4	| Q_COPY || 1:CST:1	|| 3:VAR:2TEMP	|
+5	| Q_COPY || 1:VAR:2TEMP	|| 3:VAR:c	|
+6	| Q_GOTO || 3:CST:7	|
+7	| Q_COPY || 1:CST:1	|| 3:VAR:3TEMP	|
+8	| Q_GOTO || 3:CST:10	|
+9	| Q_COPY || 1:CST:0	|| 3:VAR:3TEMP	|
+10	| Q_RETURN || 1:VAR:3TEMP	|| 3:CST:14	|
+11	| Q_POP_CTX |
+12	| Q_GOTO |
+13	| Q_END_METH |
+14	| Q_END_METH || 1:VAR:vrai	|| 2:CST:0	|
+15	| Q_POP_CTX |
+16	| Q_PUSH_CTX |
+17	| Q_DEF_METH || 1:VAR:main	|| 2:CST:0	|
+18	| Q_PUSH_CTX |
+19	| Q_COPY || 1:CST:17	|| 3:VAR:6TEMP	|
+20	| Q_COPY || 1:VAR:6TEMP	|| 3:VAR:x	|
+21	| Q_COPY || 1:CST:0	|| 3:VAR:7TEMP	|
+22	| Q_COPY || 1:VAR:7TEMP	|| 3:VAR:c	|
+23	| Q_COPY || 1:VAR:x	|| 3:VAR:8TEMP	|
+24	| Q_COPY || 1:CST:42	|| 3:VAR:9TEMP	|
+25	| Q_EQ || 1:VAR:8TEMP	|| 2:VAR:9TEMP	|| 3:CST:27	|
+26	| Q_GOTO || 3:CST:33	|
+27	| Q_CALL_METH || 1:VAR:vrai	|| 2:CST:0	|| 3:VAR:10TEMP	|
+28	| Q_IF || 1:VAR:10TEMP	|| 3:CST:30	|
+29	| Q_GOTO || 3:CST:33	|
+30	| Q_PUSH_CTX |
+31	| Q_POP_CTX |
+32	| Q_GOTO || 3:CST:33	|
+33	| Q_COPY || 1:VAR:c	|| 3:VAR:11TEMP	|
+34	| Q_PARAM || 1:CST:1	|| 3:VAR:11TEMP	|
+35	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
+36	| RIEN || 3:VAR:STR12	|
+37	| Q_POP_CTX |
+38	| Q_GOTO |
+39	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|
+40	| Q_POP_CTX |
+41	| Q_POP_CTX |

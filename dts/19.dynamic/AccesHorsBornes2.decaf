@@ -1,0 +1,17 @@
+class AccesHorsBornes2 {
+    // suggéré par Evan Zarrella et son groupe
+    int t [10];
+    void main ()
+    {
+        WriteString ("0=0\n"); // il faut au moins une ligne
+        for i = 0, 9
+        {
+            t[i] = i;
+        }
+        for i = 0, 9
+        {
+            t[9-i] = (t[9-i-1] + 1) * i;
+        }
+        WriteString ("0=1\n"); // il ne faut pas arriver ici
+    }
+}
