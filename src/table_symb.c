@@ -155,6 +155,9 @@ void free_table_symb(ctx* ctx_first) {
         }
         free(ctx_first->tab[i].name);
     }
+    free(ctx_first->tab);
+    free(ctx_first->next);
+    free(ctx_first);
 }
 
 char* print_type_simple(int t) {

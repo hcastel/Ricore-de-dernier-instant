@@ -75,23 +75,23 @@ abstract: |
 
 # Introduction
 
-La compilation est une étape essentielle dans la conception d'un programme car elle consiste ni plus ni moins à traduire en langage machine un programme écrit en un langage lisible par l'homme.
+La compilation est une étape essentielle dans la conception d'un programme car elle consiste ni plus ni moins à traduire un programme écrit en un langage lisible par l'homme en langage machine.
 
-En effet l'assembleur n'étant qu'une translitération des instructions binaires effectivement utilisées par les processeurs, le compilateur est souvent la dernière étape dans laquelle notre programme change significativement de forme. Tout les concepts qui peuvent parfois rendre la programmation ludique aux plus novices comme les objets, les structures de contrôle, la gestion dynamique des erreurs disparaissent pour ne laisser place qu'à des instructions élémentaires se satisfaisant bien de piles et d'adresses de branchement.
+En effet, l'assembleur n'étant qu'une translittération des instructions binaires effectivement utilisées par les processeurs, le compilateur est souvent la dernière étape dans laquelle notre programme change significativement de forme. Tous les concepts qui peuvent parfois rendre la programmation ludique aux plus novices comme les objets, les structures de contrôle ou la gestion dynamique des erreurs disparaissent pour ne laisser place qu'à des instructions élémentaires se satisfaisant bien de piles et d'adresses de branchement.
 
-Le compilateur a donc à charge de garder l'intégrité du programme lors de la traduction, mais aussi de s'assurer qu'il propose une version optimisée de ce dernier (le programmeur n'ayant en général pas accès aux choix fait par le compilateur depuis le langage haut niveau).
+Le compilateur a donc à charge de garder l'intégrité du programme lors de la traduction, mais aussi de s'assurer qu'il propose une version optimisée de ce dernier (le programmeur n'ayant en général pas accès aux choix faits par le compilateur depuis le langage haut niveau).
 
-Ce projet de compilation est donc une très bonne occasion non seulement de mettre en pratique les notions vues en cours de Compilation, mais aussi de réellement faire face aux problématiques rencontrées par ces programmes clés de voûte.
+Ce projet de compilation est donc une très bonne occasion, non seulement de mettre en pratique les notions vues en cours de Compilation, mais aussi de réellement faire face aux problématiques rencontrées par ces programmes clés de voûte.
 
-Nous rappellerons ici les différents attendus du sujets en présentant brièvement nos mises en œuvre pour les résoudre, puis nous exposerons la liste des opérateurs utilisés pour les quadruplets de notre langage intermédiaire, avant d'enfin conclure.
+Nous rappellerons ici les différents attendus du sujets en présentant brièvement nos mises en œuvre pour les résoudre, puis nous exposerons la liste des opérateurs utilisés pour les quadruplets de notre langage intermédiaire, avant de conclure.
 
 # Contraintes et solutions
 
 ## Types
 
-Nous avons implémenté 5 types : `int`, `boolean`, ainsi que leurs versions en tableaux `int[]` et `boolean[]`, ainsi que le type `string` qui n'est supporté que dans la fonction *native* `WriteString`. `char` n'est qu'un alias de `int` car passé l'étape de l'analyse lexicale et syntaxique, nous avons fait le choix de la traiter comme tel.
+Nous avons implémenté 5 types : `int`, `boolean`, ainsi que leurs versions en tableaux `int[]` et `boolean[]`, ainsi que le type `string` qui n'est supporté que dans la fonction *native* `WriteString`. `char` n'est qu'un alias de `int` car, passée l'étape de l'analyse lexicale et syntaxique, nous avons fait le choix de la traiter comme tel.
 
-De par sa nature un peu à part, le traitement des `string` s'est révélé un peu plus fastidieux que prévu car il ne s'agit finalement pas d'un type à part entière car il n'est utilisable que via la fonction `WriteString`. Il bénéficie donc d'un traitement à part dans notre compilateur.
+Par sa nature un peu particulière, le traitement des `string` s'est révélé un peu plus fastidieux que prévu car il ne s'agit finalement pas d'un type à part entière : il n'est utilisable que via la fonction `WriteString`. Il bénéficie donc d'un traitement réservé dans notre compilateur.
 
 <!--
 Utilisation:
@@ -103,13 +103,13 @@ petite complexité au niveau des string
 
 ## Portée des variables
 
-Dans tout les contextes, la syntaxe DECAF impose de déclarer l'ensemble de nos variables avant de les exploiter, et ce à tout les niveaux de portée.
+Dans tous les contextes, la syntaxe DECAF impose de déclarer l'ensemble de nos variables avant de les exploiter, et ce à tous les niveaux de portée.
 
 On dénombre 3 niveaux de portée :
 
-- Globale, déclarées au niveau de la `class` et accessible partout,
-- Méthodes, déclarées au début d'une méthode et accessible dans celle-ci,
-- Locales, déclarées au début d'un *bloc* interne à une fonction, accessible uniquement depuis ledit bloc.
+- Globale pour des variables déclarées au niveau de la `class` et accessibles partout,
+- Méthodes pour des variables déclarées au début d'une méthode et accessibles dans celle-ci,
+- Locales pour des variables déclarées au début d'un *bloc* interne à une fonction, accessible uniquement depuis ledit bloc.
 
 De cette manière, il est possible de faire cohabiter des variables portant le même nom tant qu'elles se trouvent dans des portées distinctes. Lors de la résolution d'un nom de variable, on cherche de la portée la "plus locale" à la "plus globale" (voir @fig:ctx). Il n'y a donc de conflits que si l'on tente de créer deux variables portant le même nom dans un même contexte.
 
@@ -126,14 +126,14 @@ TEST:
 table des contextes, arbre de contexte qui permet à partir d'un contexte courant de remonter jusqu'au contexte global, à chaque modification de variable, ce parcourt est effectué, de même on parcourt le contexte courant avant d'y ajouter un identifiant.
 -->
 
-Pour mettre en œuvre ce mécanisme, nous avons mis en place des *tables de contexte* et un *arbre des contextes* ce qui nous a permis, à partir d'un *contexte courant*, de remonter jusqu'au contexte global en passant par les contextes intermédiaires encapsulant notre contexte courant. Cette remontée est effectuée à chaque modification de variable afin de déterminer quelle variable le programmeur veut affecter. La table du contexte courant est également parcourue à chaque déclaration de variable dans ce contexte afin de détecter les éventuels conflits.
+Pour mettre en œuvre ce mécanisme, nous avons mis en place des *tables de contexte* et un *arbre des contextes*, ce qui nous a permis, à partir d'un *contexte courant*, de remonter jusqu'au contexte global en passant par les contextes intermédiaires encapsulant notre contexte courant. Cette remontée est effectuée à chaque modification de variable afin de déterminer quelle variable le programmeur veut affecter. La table du contexte courant est également parcourue à chaque déclaration de variable dans ce contexte afin de détecter les éventuels conflits.
 
 ![Visualisation des encapsulations de contextes](fig-glob-meth-loc.pdf){#fig:ctx}
 
 ## Emplacements
 
 À l'initialisation, toutes les variables sont initialisées à une valeur par défaut (`0` pour les `int`, `false` pour les `boolean`).
-Le choix a été fait d'allouer une zone statique pour les variables du contexte globale. En ce qui concerne les variables de méthodes et autres locales, ces dernières sont directement allouées sur la pile car les tableaux ne sont pas autorisés dans ces niveaux.
+Le choix a été fait d'allouer une zone statique pour les variables du contexte global. En ce qui concerne les variables de méthodes et locales, ces dernières sont directement allouées sur la pile car les tableaux ne sont pas autorisés dans ces niveaux.
 
 <!---int var, bool var dans la pile
 	-variables du contexte globales (tab, var glob) zone statique
@@ -154,24 +154,24 @@ Les arguments des méthodes sont passés par valeurs et non pas par référence 
 
 ## Invocation de méthode et retour
 
-> une méthode quelconque peut être appelée dans statement
-> dans expr, seule une méthode renvoyant un résultat le peut
-> une méthode ne peut renvoyer qu'un int ou bool
-> les arguments sont placés sur la piles juste avant call
-> l'appelé sauvegarde fp et ra sur la pile et execute son code
-> lorsqu'un return apparait, il est passé de bloc en bloc jusqu'a atteindre le contexte methode (avec un marqueur methode), l'appelant le traitera.
+> Une méthode quelconque peut être appelée dans statement
+> Dans expr, seule une méthode renvoyant un résultat le peut
+> Une méthode ne peut renvoyer qu'un int ou bool
+> Les arguments sont placés sur la pile juste avant call
+> L'appelé sauvegarde fp et ra sur la pile et exécute son code
+> Lorsqu'un return apparaît, il est passé de bloc en bloc jusqu'à atteindre le contexte méthode (avec un marqueur méthode), l'appelant le traitera.
 
 ### Paramètres
 
-Les paramètres de la fonction après avoir été calculés (si expression complexe), sont placés sur la pile de gauche à droite, à l'aide d'un quadruplet
+Les paramètres de la fonction, après avoir été calculés (si expression complexe), sont placés sur la pile de gauche à droite, à l'aide d'un quadruplet.
 
 ### Appel
 
-La méthode est ensuite appelée par le quadruplet `Q_CALL_METH`, placant son `$fp` juste avant les arguments et sauvegardant `$fp` et `$ra` sur la pile avant d'executer son code.
+La méthode est ensuite appelée par le quadruplet `Q_CALL_METH`, placant son `$fp` juste avant les arguments et sauvegardant `$fp` et `$ra` sur la pile avant d'exécuter son code.
 
 ### Retour
 
-Si la méthode ne renvoit rien, elle peut être appelée depuis un `statement` seulement. Sinon elle peut l'être depuis un `expr` ou un `statement` (son résultat est alors oublié). La rencontre d'une fin textuelle de fonction renvoyant un résultat, est considérée comme une erreur.
+Si la méthode ne renvoie rien, elle peut être appelée depuis un `statement` seulement. Sinon elle peut l'être depuis un `expr` ou un `statement` (son résultat est alors oublié). La rencontre d'une fin textuelle de fonction renvoyant un résultat est considérée comme une erreur.
 
 ## Structure de contrôle
 
