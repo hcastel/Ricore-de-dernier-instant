@@ -107,7 +107,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 64 "decaf.y"
+#line 68 "decaf.y"
 
     char *str_val;
     long int int_val;

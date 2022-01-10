@@ -41,7 +41,6 @@ enum type_simple {
 };
 typedef enum type_simple type_simple;
 
-
 //Opérateur d'un quadruplet quad
 struct quad_op {
     
@@ -57,7 +56,6 @@ struct quad_op {
     } qo_valeur;
 };
 typedef struct quad_op quad_op;
-
 
 //quadruplet : instruction , op1, op2, op3
 struct quad {

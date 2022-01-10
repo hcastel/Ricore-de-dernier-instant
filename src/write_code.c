@@ -12,7 +12,6 @@ quad_op cst_vide = {QO_VIDE,-1};
 quad_op cst_un = {QO_CST,1};
 quad_op cst_zero = {QO_CST,0};
 
-
 void gencode
 (void** code_inter, int* next_quad, q_type operation, quad_op q1, quad_op q2, quad_op q3) {
     quad* code = *((quad**)code_inter);
@@ -23,7 +22,6 @@ void gencode
     code[*next_quad].q3 = q3;
 
     (*next_quad)++;
-
 }
 
 void complete_liste
@@ -35,8 +33,6 @@ void complete_liste
     }
     free(l);
 }
-
-
 
 void write_location_bool_to_expr
 (void** code_inter, int* next_quad, ctx* current_ctx, int* num_temp, expr_val t1, expr_val* res){
@@ -242,11 +238,9 @@ int write_not_to_expr
 
 }
 
-
-
 void write_inc_dec
 (void** code_inter, int* next_quad, ctx* current_ctx, int* num_temp, expr_val t1, expr_val t3, int op){
-    
+
     symbole* s_temp = newname_temp(T_INT,current_ctx,num_temp);
     quad_op qo_temp;
     new_qo_name(s_temp->name,&(qo_temp));
@@ -282,8 +276,6 @@ void write_assign_bool
 
 }
 
-
-
 void write_empty_stat(control_liste* res){
     res->l_break = creer_liste_vide(&(res->size_break));
     res->l_continue = creer_liste_vide(&(res->size_continue));
@@ -291,8 +283,6 @@ void write_empty_stat(control_liste* res){
     res->l_next = creer_liste_vide(&(res->size_next));
     res->type_return = T_VOID;
 }
-
-
 
 void write_if_stat
 (void** code_inter, int* next_quad, ctx* current_ctx, int* num_temp, expr_val t3, int m5, control_liste t6, control_liste* res){

@@ -111,19 +111,18 @@ int write_pop_ctx_spim(quad q, ctx* tab_symbole, ctx** ite, FILE* f_ptr){
 }
 
 int write_copy_spim(quad q, ctx* ite, FILE* f_ptr){
-///SOURCE
+    //SOURCE
     if( q.q1.qo_type==QO_CST ){
     //src:cst
-    
         fprintf(f_ptr,"\tli $t0, %i\n",q.q1.qo_valeur.cst);
-    
     } else {
-    //src:name    
-    
+    //src:non cst    
         symbole* s1 = look_up(q.q1.qo_valeur.name,ite);
+        // symbole* s2 = look_up(q.q2.qo_valeur.name,ite);
         
         if( s1->fonction==F_TAB ){
             
+
             fprintf(f_ptr,"\tlw $t0, %i($sp)\n",4*place_pile(q.q2.qo_valeur.name,ite));
             fprintf(f_ptr,"\tbge $t0, %i, label_hors_tab\n",s1->type.tab.size);
             fprintf(f_ptr,"\tblt $t0, 0, label_hors_tab\n");
@@ -138,27 +137,18 @@ int write_copy_spim(quad q, ctx* ite, FILE* f_ptr){
         } else if( s1->fonction==F_ARG 
                 || s1->fonction==F_TEMP
                 || s1->fonction==F_VAR ){
-    
             fprintf(f_ptr,"\tlw $t0, %i($sp)\n",4*place_pile(q.q1.qo_valeur.name,ite));
-    
         } else if( s1->fonction==F_VAR_GLB){
-    
             fprintf(f_ptr,"\tlw $t0, %s\n",q.q1.qo_valeur.name);
-    
         } else {
-    
-            // return 1;
-    
-            // return 1;
-            // 
+            fprintf(stderr,"-ERREUR:generationSpim-\tQ_COPY source.");
+            exit(1);
         }
     }
 
-
-///DESTINATION
+    //DESTINATION
     symbole* s3 = look_up(q.q3.qo_valeur.name,ite);
     if( s3->fonction==F_TAB ){
-        
         fprintf(f_ptr,"\tlw $t1, %i($sp)\n",4*place_pile(q.q2.qo_valeur.name,ite));
         fprintf(f_ptr,"\tbge $t1, %i, label_hors_tab\n",s3->type.tab.size);
         fprintf(f_ptr,"\tblt $t1, 0, label_hors_tab\n");
@@ -168,28 +158,93 @@ int write_copy_spim(quad q, ctx* ite, FILE* f_ptr){
         fprintf(f_ptr,"\tla $t2, %s\n",q.q3.qo_valeur.name);
         fprintf(f_ptr,"\tmul $t1, $t1, 4\n");
         fprintf(f_ptr,"\tadd $t1, $t1, $t2\n");
-    
     } else if( s3->fonction==F_ARG 
             || s3->fonction==F_TEMP
             || s3->fonction==F_VAR ){
-    
         fprintf(f_ptr,"\tla $t1, %i($sp)\n",4*place_pile(q.q3.qo_valeur.name,ite));
-    
     } else if( s3->fonction==F_VAR_GLB ){
-    
         fprintf(f_ptr,"\tla $t1, %s\n",q.q3.qo_valeur.name);
-    
     } else {
-        // return 1;
-        // 
-    
-        return 1;
-    
+        fprintf(stderr,"-ERREUR:generationSpim-\tQ_COPY destination.");
+        exit(1);
     }
 
     fprintf(f_ptr,"\tsw $t0, 0($t1)\n");
     return 0;
 }
+
+// int write_copy_spim(quad q, ctx* ite, FILE* f_ptr){
+// ///SOURCE
+//     if( q.q1.qo_type==QO_CST ){
+//     //src:cst
+    
+//         fprintf(f_ptr,"\tli $t0, %i\n",q.q1.qo_valeur.cst);
+    
+//     } else {
+//     //src:name    
+    
+//         symbole* s1 = look_up(q.q1.qo_valeur.name,ite);
+        
+//         if( s1->fonction==F_TAB ){
+            
+//             fprintf(f_ptr,"\tlw $t0, %i($sp)\n",4*place_pile(q.q2.qo_valeur.name,ite));
+//             fprintf(f_ptr,"\tbge $t0, %i, label_hors_tab\n",s1->type.tab.size);
+//             fprintf(f_ptr,"\tblt $t0, 0, label_hors_tab\n");
+//             //on charge le deplacement par rapport à addr tab
+//             fprintf(f_ptr,"\tlw $t0, %i($sp)\n",4*place_pile(q.q2.qo_valeur.name,ite));
+//             //on charge addr tab et la ressource qu'elle contient dans $t0
+//             fprintf(f_ptr,"\tla $t1, %s\n",q.q1.qo_valeur.name);
+//             fprintf(f_ptr,"\tmul $t0, $t0, 4\n");
+//             fprintf(f_ptr,"\tadd $t1, $t1, $t0\n");
+//             fprintf(f_ptr,"\tlw $t0, 0($t1)\n");
+
+//         } else if( s1->fonction==F_ARG 
+//                 || s1->fonction==F_TEMP
+//                 || s1->fonction==F_VAR ){
+    
+//             fprintf(f_ptr,"\tlw $t0, %i($sp)\n",4*place_pile(q.q1.qo_valeur.name,ite));
+    
+//         } else if( s1->fonction==F_VAR_GLB){
+    
+//             fprintf(f_ptr,"\tlw $t0, %s\n",q.q1.qo_valeur.name);
+    
+//         } else {
+//             return 1;
+//         }
+//     }
+
+
+// ///DESTINATION
+//     symbole* s3 = look_up(q.q3.qo_valeur.name,ite);
+//     if( s3->fonction==F_TAB ){
+        
+//         fprintf(f_ptr,"\tlw $t1, %i($sp)\n",4*place_pile(q.q2.qo_valeur.name,ite));
+//         fprintf(f_ptr,"\tbge $t1, %i, label_hors_tab\n",s3->type.tab.size);
+//         fprintf(f_ptr,"\tblt $t1, 0, label_hors_tab\n");
+//         //on charge le deplacement par rapport à addr tab
+//         fprintf(f_ptr,"\tlw $t1, %i($sp)\n",4*place_pile(q.q2.qo_valeur.name,ite));
+//         //on charge addr tab et la ressource qu'elle contient dans $t0
+//         fprintf(f_ptr,"\tla $t2, %s\n",q.q3.qo_valeur.name);
+//         fprintf(f_ptr,"\tmul $t1, $t1, 4\n");
+//         fprintf(f_ptr,"\tadd $t1, $t1, $t2\n");
+    
+//     } else if( s3->fonction==F_ARG 
+//             || s3->fonction==F_TEMP
+//             || s3->fonction==F_VAR ){
+    
+//         fprintf(f_ptr,"\tla $t1, %i($sp)\n",4*place_pile(q.q3.qo_valeur.name,ite));
+    
+//     } else if( s3->fonction==F_VAR_GLB ){
+    
+//         fprintf(f_ptr,"\tla $t1, %s\n",q.q3.qo_valeur.name);
+    
+//     } else {
+//         return 1;
+//     }
+
+//     fprintf(f_ptr,"\tsw $t0, 0($t1)\n");
+//     return 0;
+// }
 
 int write_arith_spim(quad q, ctx* ite, FILE* f_ptr){
     

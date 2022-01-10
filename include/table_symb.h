@@ -1,7 +1,6 @@
 #ifndef TAB_SYM_H
 #define TAB_SYM_H
 
-
 #include "../include/quad.h"
 #include <stdio.h>
 #include <string.h>

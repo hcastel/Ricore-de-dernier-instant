@@ -7,7 +7,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 struct types_liste {
     type_simple* list;
     quad_op* list_arg;

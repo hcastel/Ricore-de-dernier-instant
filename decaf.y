@@ -13,6 +13,10 @@
 
     #define TAB_SYMBOLES (*((ctx**)tab_symbole))
     #define ERROR(msg) yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\t"msg".")
+    #define CHECK_NOT_REDEF(new_symb)   if((new_symb)==NULL){ \
+                                        ERROR("Redéfinition d'un identifiant de la même portée"); \
+                                        YYABORT; \
+                                    }
 
     extern int yylex();
     /* extern int numero_type[]; */
@@ -23,13 +27,13 @@
     //LONGUEUR MAXIMALE D'UN NOM DE TEMPORAIRE
     #define SIZE_MAX_NAME_TEMP 10
 
+    //ITERATEUR DU NOMBRE DE TEMPORAIRES
+    int num_temp = 0;
+
     //QUAD_OP SOUVENT UTILISES
     quad_op qo_vide = {QO_VIDE,-1};
     quad_op qo_un = {QO_CST,1};
     quad_op qo_zero = {QO_CST,0};
-
-    //ITERATEUR DU NOMBRE DE TEMPORAIRES
-    int num_temp = 0;
 
     //AJOUTE LE CODE A code_inter
     void gencode(void**,int*,q_type,quad_op,quad_op,quad_op);
@@ -200,17 +204,11 @@ field_ids:
 field_id:
     ID
             {
-                if(newname_var_glb($1,$<int_val>0,current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_var_glb($1,$<int_val>0,current_ctx))
             }
     | ID OP_CRO int_literal CL_CRO
             {
-                if( newname_tab($1,$<int_val>0,$3.result.qo.qo_valeur.cst,current_ctx)==NULL ){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_tab($1,$<int_val>0,$3.result.qo.qo_valeur.cst,current_ctx))
             }
     ;
 
@@ -226,10 +224,7 @@ method_decl:
                     ERROR("Méthode commencant par label interdite");
                     YYABORT;
                 }
-                if( newname_proc($2,NULL,0,$1,current_ctx)==NULL ){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_proc($2,NULL,0,$1,current_ctx))
             }
     push OP_PAR method_decl_args
             {
@@ -242,8 +237,6 @@ method_decl:
             }
     CL_PAR block
             {
-                symbole* s_meth = look_up($2,TAB_SYMBOLES);
-
                 if($9.size_return!=0 && $9.type_return!=$1){
                     ERROR("Types de retour incohérents");
                     YYABORT;
@@ -264,10 +257,7 @@ method_decl:
                     ERROR("Mot commencant par label interdit");
                     YYABORT;
                 }
-                if( newname_proc($2,NULL,0,T_VOID,current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_proc($2,NULL,0,T_VOID,current_ctx))
             }
     push OP_PAR method_decl_args
             {
@@ -280,8 +270,6 @@ method_decl:
             }
     CL_PAR block
             {
-                symbole* s_meth = look_up($2,TAB_SYMBOLES);
-
                 if($9.size_return!=0 && $9.type_return!=T_VOID){
                     ERROR("Types de retour incohérents");
                     YYABORT;
@@ -312,25 +300,17 @@ method_decl_args:
 method_decl_arg:
     method_decl_arg VIRG type ID
             {
+                CHECK_NOT_REDEF(newname_arg($4,$3,current_ctx))
                 $$.list = concat_liste_int((int*)$1.list,$3,$1.size,&($$.size));
-                if( newname_arg($4,$3,current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
             }
-    | type ID  
+    | type ID
             {
+                CHECK_NOT_REDEF(newname_arg($2,$1,current_ctx))
                 $$.list = malloc(1*sizeof(int));
                 $$.list[0] = $1;
                 $$.size = 1;
-                if( newname_arg($2,$1,current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
             }
     ;
-
-
 
 block:
     OP_BRA push var_decls statements M pop CL_BRA
@@ -369,21 +349,14 @@ var_decl:
 
 var_ids:
     var_ids VIRG ID
-            {   
-                if(newname_var($3,$<int_val>0,current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+            {
+                CHECK_NOT_REDEF(newname_var($3,$<int_val>0,current_ctx))
             }
     | ID
             {
-                if(newname_var($1,$<int_val>0,current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_var($1,$<int_val>0,current_ctx))
             }
     ;
-
 
 type: 
     TYPE_INT 
@@ -396,12 +369,9 @@ type:
             }                  
     ;
 
-
-
 statements:
     statements M statement
             {
-
                 complete_liste(code_inter,$1.l_next,$1.size_next,$2);
                 $$.l_next = $3.l_next;
                 $$.size_next = $3.size_next;
@@ -441,7 +411,6 @@ statement:
                 write_empty_stat(&$$);
             } 
     | location assign_op expr SM
-
             {
                 // entier
                 // Q_COPY : loc : _ : result
@@ -449,17 +418,17 @@ statement:
                 // Q_COPY : loc : dplc : result
                 // loc ou result sont des tableaux, on le verifie apres                
                 
-                if( $2==AFF_INC ){    
-                    if( $1.type!=$3.type || $1.type!=T_INT ){
+                if($2==AFF_INC){    
+                    if($1.type!=T_INT || $3.type!=T_INT){
                         ERROR("Incrémentation entre entiers uniquement");
-                        YYABORT;   
+                        YYABORT;
                     } else {
                         write_inc_dec(code_inter, next_quad, current_ctx, &num_temp, $1, $3, Q_ADD);
-                    }                                                
+                    }
                 }
 
                 if($2==AFF_DEC){
-                    if($1.type!=$3.type || $1.type!=T_INT){
+                    if($1.type!=T_INT || $3.type!=T_INT){
                         ERROR("Décrémentation entre entiers uniquement");
                         YYABORT;   
                     } else {
@@ -472,9 +441,9 @@ statement:
                         gencode(code_inter,next_quad,Q_COPY,$3.result.qo,$1.dplc,$1.result.qo);
                     } else if ($1.type==T_BOOL && $3.type==T_BOOL) {
                         write_assign_bool(code_inter, next_quad, current_ctx, $1, $3);
-                    } else {    
+                    } else {
                         ERROR("Assignation entre types différents interdite");
-                        YYABORT;    
+                        YYABORT;
                     }
                 }
 
@@ -625,7 +594,7 @@ assign_op:
             }
     | AFF_DEC
             {
-                $$ =AFF_DEC;
+                $$ = AFF_DEC;
             }
     ;
 
@@ -735,8 +704,6 @@ method_call_arg:
 
             }
     ;
-
-
 
 location:
     ID

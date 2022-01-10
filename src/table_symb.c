@@ -90,7 +90,7 @@ symbole* newname_proc(char* name, int* arg_type, int size_arg, type_simple retur
 }
 
 symbole* newname_proc_ext(char* name, int* arg_type, int size_arg, type_simple return_type, ctx* current_ctx) {
-    char* name_meth_ext = malloc(strlen(name)*sizeof(char));
+    char* name_meth_ext = malloc(strlen(name)*sizeof(char)+1);
     strcpy(name_meth_ext,name);
 
     return newname_proc(name_meth_ext,arg_type,size_arg,return_type,current_ctx);
@@ -100,57 +100,58 @@ symbole* newname_proc_ext(char* name, int* arg_type, int size_arg, type_simple r
 symbole* newname_tab(char* name, type_simple type, int size, ctx* current_ctx) {
     if(!check_unicity(name, current_ctx)) return NULL;
     
-    int ind_symb = ++current_ctx->size_tab;
+    int ind_symb = current_ctx->size_tab++;
 
-    current_ctx->tab = realloc(current_ctx->tab,ind_symb*sizeof(symbole));
-    current_ctx->tab[ind_symb-1].name = name;
-    current_ctx->tab[ind_symb-1].fonction = F_TAB;
-    current_ctx->tab[ind_symb-1].type.tab.size = size; 
-    current_ctx->tab[ind_symb-1].type.tab.simple = type; 
+    current_ctx->tab = realloc(current_ctx->tab,(ind_symb+1)*sizeof(symbole));
+    current_ctx->tab[ind_symb].name = name;
+    current_ctx->tab[ind_symb].fonction = F_TAB;
+    current_ctx->tab[ind_symb].type.tab.size = size; 
+    current_ctx->tab[ind_symb].type.tab.simple = type; 
 
-    return &(current_ctx->tab[ind_symb-1]);
+    return &(current_ctx->tab[ind_symb]);
 }
 
 //attention taille de name
 symbole* newname_temp(type_simple type, ctx* current_ctx, int* num_temp) {
-    int ind_symb = ++current_ctx->size_tab;
-    current_ctx->tab = realloc(current_ctx->tab,ind_symb*sizeof(symbole));
-    current_ctx->tab[ind_symb-1].name = malloc(10*sizeof(char));
-    snprintf(current_ctx->tab[ind_symb-1].name,10,"%iTEMP",*num_temp);
-    current_ctx->tab[ind_symb-1].fonction = F_TEMP;
-    current_ctx->tab[ind_symb-1].type.simple = type; 
+    int ind_symb = current_ctx->size_tab++;
+    current_ctx->tab = realloc(current_ctx->tab,(ind_symb+1)*sizeof(symbole));
+    current_ctx->tab[ind_symb].name = malloc(10*sizeof(char));
+    snprintf(current_ctx->tab[ind_symb].name,10,"%iTEMP",*num_temp);
+    current_ctx->tab[ind_symb].fonction = F_TEMP;
+    current_ctx->tab[ind_symb].type.simple = type; 
 
     (*num_temp)++;
 
-    return &(current_ctx->tab[ind_symb-1]);
+    return &(current_ctx->tab[ind_symb]);
 }
 
 symbole* newname_string(char* str, ctx* current_ctx, int* num_temp) {
-    int ind_symb = ++current_ctx->size_tab;
-    current_ctx->tab = realloc(current_ctx->tab,ind_symb*sizeof(symbole));
-    current_ctx->tab[ind_symb-1].name = malloc(10*sizeof(char));
-    snprintf(current_ctx->tab[ind_symb-1].name,10,"STR%i",*num_temp);
-    current_ctx->tab[ind_symb-1].fonction = F_STRING;
-    current_ctx->tab[ind_symb-1].type.str.nb_char = strlen(str);
-    current_ctx->tab[ind_symb-1].type.str.val = str;
+    int ind_symb = current_ctx->size_tab++;
+    current_ctx->tab = realloc(current_ctx->tab,(ind_symb+1)*sizeof(symbole));
+    current_ctx->tab[ind_symb].name = malloc(10*sizeof(char));
+    snprintf(current_ctx->tab[ind_symb].name,10,"STR%i",*num_temp);
+    current_ctx->tab[ind_symb].fonction = F_STRING;
+    current_ctx->tab[ind_symb].type.str.nb_char = strlen(str);
+    current_ctx->tab[ind_symb].type.str.val = str;
 
     (*num_temp)++;
 
-    return &(current_ctx->tab[ind_symb-1]);
+    return &(current_ctx->tab[ind_symb]);
 }
 
 void free_table_symb(ctx* ctx_first) {
     if(ctx_first==NULL)
         return;
     
-    for(int k=0; k<ctx_first->size_next; k++){
+    for(int k=0; k < ctx_first->size_next; k++){
         free_table_symb(ctx_first->next[k]);    
     }
-    for(int i=0; i<ctx_first->size_tab; i++) {
+    for(int i=0; i < ctx_first->size_tab; i++) {
         if(ctx_first->tab[i].fonction==F_METH){
-//AJOUTER FREE DE LA TABLE DES ARGUMENTS
-
             free(ctx_first->tab[i].type.proc.arg);
+        }
+        else if(ctx_first->tab[i].fonction==F_STRING){
+            free(ctx_first->tab[i].type.str.val);
         }
         free(ctx_first->tab[i].name);
     }

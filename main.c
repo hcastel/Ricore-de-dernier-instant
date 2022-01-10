@@ -5,6 +5,10 @@
 #include "include/table_symb.h"
 #include "include/quad.h"    
 #define SIZE_CODE_INTER 1000
+#define CHECK_WRITE(fct,msg)    if((fct)==1){ \
+                                    fprintf(stderr,"-ERREUR:generationSpim-\t"msg); \
+                                    exit(1); \
+                                }
 
 extern int yyparse();
 extern FILE* yyin;
@@ -128,29 +132,24 @@ void print_code_inter(quad* code_inter, int next_quad){
     }    
 }
 
-
-
-
 void open_write_file(char* file, ctx* tab_symbole, quad* code_inter, int next_quad){
-
     // tab_label_check contient les lignes de debut de blocs de base (1 si debut, 0 sinon)
     int tab_label_check[SIZE_CODE_INTER] = {0};
     // ite sera le contexte courant lors de notre parcours du code intermediaire
     ctx* ite = NULL;
     
-    if( file==NULL ){
+    if(file==NULL)
         return;
-    }
 
     FILE* f_ptr = fopen(file, "w+");
     if(f_ptr==NULL){
-        fprintf(stderr,"Ouverture du fichier spim a échoué\n");
+        fprintf(stderr,"L'ouverture du fichier spim a échoué\n");
         return;
     }
 
     write_data_spim(tab_symbole,f_ptr);
 
-    for(int i = 0; i<next_quad; i++){
+    for(int i = 0; i < next_quad; i++){
         if(code_inter[i].q_type == Q_IF ||
            code_inter[i].q_type == Q_EQ ||
            code_inter[i].q_type == Q_NOT_EQ ||
@@ -163,30 +162,26 @@ void open_write_file(char* file, ctx* tab_symbole, quad* code_inter, int next_qu
            code_inter[i].q_type == Q_CONTINUE || 
            code_inter[i].q_type == Q_RETURN )
         {            
-            tab_label_check[code_inter[i].q3.qo_valeur.cst]=1;
+            tab_label_check[code_inter[i].q3.qo_valeur.cst] = 1;
         }
     }
 
-
-    for(int i = 0; i<next_quad; i++){    
-
+    for(int i = 0; i < next_quad; i++){
         if(tab_label_check[i]==1){
             fprintf(f_ptr,"label%i:\n",i);
         }
 
         switch(code_inter[i].q_type) {
             case Q_PUSH_CTX:
-                
                 write_push_ctx_spim(code_inter[i], tab_symbole, &ite, f_ptr);                
                 break;
 
             case Q_POP_CTX:
-
                 write_pop_ctx_spim(code_inter[i], tab_symbole, &ite, f_ptr);
                 break;
 
             case Q_COPY:
-
+                // CHECK_WRITE(write_copy_spim(code_inter[i],ite,f_ptr), "Q_COPY")
                 //SOURCE
                 if( code_inter[i].q1.qo_type==QO_CST ){
                 //src:cst
@@ -222,7 +217,6 @@ void open_write_file(char* file, ctx* tab_symbole, quad* code_inter, int next_qu
                     }
                 }
 
-
                 //DESTINATION
                 symbole* s3 = look_up(code_inter[i].q3.qo_valeur.name,ite);
                 if( s3->fonction==F_TAB ){
@@ -247,14 +241,6 @@ void open_write_file(char* file, ctx* tab_symbole, quad* code_inter, int next_qu
                 }
 
                 fprintf(f_ptr,"\tsw $t0, 0($t1)\n");
-
-                // printf("ALLO\n");
-                // if( write_copy_spim(code_inter[i], ite, f_ptr) == 1 ) {
-                // //     fprintf(stderr,"-ERREUR:generationSpim-\tQ_COPY");
-                //     printf("dsdsdd\n");
-                // //     exit(1);
-                // }
-                // write_copy_spim(code_inter[i],ite,f_ptr);
                 break;
 
             case Q_ADD:
@@ -262,35 +248,19 @@ void open_write_file(char* file, ctx* tab_symbole, quad* code_inter, int next_qu
             case Q_MULT:
             case Q_DIV:
             case Q_RES:
-                
-                if( write_arith_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tOP_ARITH");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_arith_spim(code_inter[i],ite,f_ptr), "OP_ARITH")
                 break;
 
             case Q_NEG:
-
-                if( write_neg_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tOP_NEG");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_neg_spim(code_inter[i],ite,f_ptr), "OP_NEG")
                 break;
 
             case Q_GOTO:
-
-                if( write_goto_spim(code_inter[i],f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tQ_GOTO");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_goto_spim(code_inter[i],f_ptr), "Q_GOTO")
                 break;
 
             case Q_IF:
-
-                if( write_if_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tOP_IF");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_if_spim(code_inter[i],ite,f_ptr), "OP_IF")
                 break;
             
             case Q_LESS:
@@ -299,70 +269,38 @@ void open_write_file(char* file, ctx* tab_symbole, quad* code_inter, int next_qu
             case Q_GREAT_EQ:
             case Q_EQ:
             case Q_NOT_EQ:
-
-                if( write_boolean_op_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tOP_BOOL");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_boolean_op_spim(code_inter[i],ite,f_ptr), "OP_BOOL")
                 break;
             
             case Q_BREAK:
             case Q_CONTINUE:
-
-                if( write_break_loop_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tQ_BREAK\\Q_CONTINUE");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_break_loop_spim(code_inter[i],ite,f_ptr), "Q_CONTINUE")
                 break;
             
             case Q_DEF_METH:
-
                 tab_label_check[i] = 1;
-                if( write_def_meth_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tQ_DEF_METH");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_def_meth_spim(code_inter[i],ite,f_ptr), "Q_DEF_METH")
                 break;
 
             case Q_RETURN:
-
-                if( write_return_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tQ_RETURN");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_return_spim(code_inter[i],ite,f_ptr), "Q_RETURN")
                 break;
             
             case Q_END_METH:
-                
-                if( write_end_meth_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tQ_END_METH");
-                    exit(1);   
-                }
-
+                CHECK_WRITE(write_end_meth_spim(code_inter[i],ite,f_ptr), "Q_END_METH")
                 break;
             case Q_PARAM:
-                
-                if( write_param_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tQ_PARAM");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_param_spim(code_inter[i],ite,f_ptr), "Q_PARAM")
                 break;  
             
             case Q_CALL_METH:
-                
-                if( write_call_meth_spim(code_inter[i],ite,f_ptr)==1 ) {
-                    fprintf(stderr,"-ERREUR:generationSpim-\tQ_CALL_METH");
-                    exit(1);   
-                }
+                CHECK_WRITE(write_call_meth_spim(code_inter[i],ite,f_ptr), "Q_CALL_METH")
                 break;
 
             case Q_PRINT:
-                
                 fprintf(f_ptr,"\tli $v0, 4\n\tla $a0, %s\n\tsyscall\n",code_inter[i].q3.qo_valeur.name);
                 break;
-
         }
     }
-    
     fclose(f_ptr);
 }

@@ -77,6 +77,10 @@
 
     #define TAB_SYMBOLES (*((ctx**)tab_symbole))
     #define ERROR(msg) yyerror(tab_symbole,code_inter,next_quad,"-ERREUR-\t"msg".")
+    #define CHECK_NOT_REDEF(new_symb)   if((new_symb)==NULL){ \
+                                        ERROR("Redéfinition d'un identifiant de la même portée"); \
+                                        YYABORT; \
+                                    }
 
     extern int yylex();
     /* extern int numero_type[]; */
@@ -87,13 +91,13 @@
     //LONGUEUR MAXIMALE D'UN NOM DE TEMPORAIRE
     #define SIZE_MAX_NAME_TEMP 10
 
+    //ITERATEUR DU NOMBRE DE TEMPORAIRES
+    int num_temp = 0;
+
     //QUAD_OP SOUVENT UTILISES
     quad_op qo_vide = {QO_VIDE,-1};
     quad_op qo_un = {QO_CST,1};
     quad_op qo_zero = {QO_CST,0};
-
-    //ITERATEUR DU NOMBRE DE TEMPORAIRES
-    int num_temp = 0;
 
     //AJOUTE LE CODE A code_inter
     void gencode(void**,int*,q_type,quad_op,quad_op,quad_op);
@@ -106,7 +110,7 @@
 
     extern char yytext[];
 
-#line 110 "decaf.tab.c"
+#line 114 "decaf.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -154,7 +158,7 @@ extern int yydebug;
     #include "include/quad.h"   
     #include "include/write_code.h" 
 
-#line 158 "decaf.tab.c"
+#line 162 "decaf.tab.c"
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -212,7 +216,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 64 "decaf.y"
+#line 68 "decaf.y"
 
     char *str_val;
     long int int_val;
@@ -224,7 +228,7 @@ union YYSTYPE
     // expr (listes booléennes, entier, etc...)
     expr_val expr_val;
 
-#line 228 "decaf.tab.c"
+#line 232 "decaf.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -604,15 +608,15 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   146,   146,   166,   187,   188,   192,   196,   197,   201,
-     208,   218,   219,   224,   235,   244,   223,   262,   273,   282,
-     261,   301,   305,   313,   321,   336,   346,   354,   362,   363,
-     367,   371,   378,   389,   393,   402,   423,   434,   443,   488,
-     492,   501,   523,   543,   522,   564,   569,   579,   589,   596,
-     600,   609,   618,   622,   626,   635,   664,   673,   682,   708,
-     742,   762,   790,   805,   824,   837,   847,   857,   867,   877,
-     887,   897,   907,   917,   927,   943,   959,   971,   984,   994,
-    1004,  1011,  1020,  1025,  1030,  1036,  1045,  1055,  1069,  1075
+       0,   150,   150,   170,   191,   192,   196,   200,   201,   205,
+     209,   216,   217,   222,   230,   239,   221,   255,   263,   272,
+     254,   289,   293,   301,   306,   316,   326,   334,   342,   343,
+     347,   351,   355,   362,   366,   373,   393,   404,   413,   457,
+     461,   470,   492,   512,   491,   533,   538,   548,   558,   565,
+     569,   578,   587,   591,   595,   604,   633,   642,   651,   677,
+     709,   729,   757,   772,   791,   804,   814,   824,   834,   844,
+     854,   864,   874,   884,   894,   910,   926,   938,   951,   961,
+     971,   978,   987,   992,   997,  1003,  1012,  1022,  1036,  1042
 };
 #endif
 
@@ -1542,7 +1546,7 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 147 "decaf.y"
+#line 151 "decaf.y"
             {
                 int trouve = 0;
 
@@ -1559,11 +1563,11 @@ yyreduce:
                     YYABORT;
                 }
             }
-#line 1563 "decaf.tab.c"
+#line 1567 "decaf.tab.c"
     break;
 
   case 3:
-#line 167 "decaf.y"
+#line 171 "decaf.y"
             {
                 TAB_SYMBOLES = push_ctx(TAB_SYMBOLES, CTX_SIMP);
                 current_ctx = TAB_SYMBOLES;
@@ -1580,48 +1584,39 @@ yyreduce:
 
                 gencode(code_inter,next_quad,Q_PUSH_CTX,qo_vide,qo_vide,qo_vide);
             }
-#line 1584 "decaf.tab.c"
+#line 1588 "decaf.tab.c"
     break;
 
   case 9:
-#line 202 "decaf.y"
+#line 206 "decaf.y"
             {
-                if(newname_var_glb((yyvsp[0].str_val),(yyvsp[-1].int_val),current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_var_glb((yyvsp[0].str_val),(yyvsp[-1].int_val),current_ctx))
             }
-#line 1595 "decaf.tab.c"
+#line 1596 "decaf.tab.c"
     break;
 
   case 10:
-#line 209 "decaf.y"
+#line 210 "decaf.y"
             {
-                if( newname_tab((yyvsp[-3].str_val),(yyvsp[-4].int_val),(yyvsp[-1].expr_val).result.qo.qo_valeur.cst,current_ctx)==NULL ){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_tab((yyvsp[-3].str_val),(yyvsp[-4].int_val),(yyvsp[-1].expr_val).result.qo.qo_valeur.cst,current_ctx))
             }
-#line 1606 "decaf.tab.c"
+#line 1604 "decaf.tab.c"
     break;
 
   case 13:
-#line 224 "decaf.y"
+#line 222 "decaf.y"
             {
                 if( strncmp("label",(yyvsp[0].str_val),5)==0 ){
                     ERROR("Méthode commencant par label interdite");
                     YYABORT;
                 }
-                if( newname_proc((yyvsp[0].str_val),NULL,0,(yyvsp[-1].int_val),current_ctx)==NULL ){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_proc((yyvsp[0].str_val),NULL,0,(yyvsp[-1].int_val),current_ctx))
             }
-#line 1621 "decaf.tab.c"
+#line 1616 "decaf.tab.c"
     break;
 
   case 14:
-#line 235 "decaf.y"
+#line 230 "decaf.y"
             {
                 symbole* s_meth = look_up((yyvsp[-4].str_val),TAB_SYMBOLES);
                 s_meth->type.proc.nb_arg = (yyvsp[0].types_liste).size;
@@ -1630,14 +1625,12 @@ yyreduce:
 
                 write_method_void_decl_args(code_inter, next_quad, current_ctx, &num_temp, s_meth, (yyvsp[0].types_liste));
             }
-#line 1634 "decaf.tab.c"
+#line 1629 "decaf.tab.c"
     break;
 
   case 15:
-#line 244 "decaf.y"
+#line 239 "decaf.y"
             {
-                symbole* s_meth = look_up((yyvsp[-7].str_val),TAB_SYMBOLES);
-
                 if((yyvsp[0].control_liste).size_return!=0 && (yyvsp[0].control_liste).type_return!=(yyvsp[-8].int_val)){
                     ERROR("Types de retour incohérents");
                     YYABORT;
@@ -1651,26 +1644,23 @@ yyreduce:
                 complete_liste(code_inter,(yyvsp[0].control_liste).l_return,(yyvsp[0].control_liste).size_return,(*next_quad));
                 gencode(code_inter,next_quad,Q_END_METH,qo_name_meth,qo_nb_arg,qo_vide);  
             }
-#line 1655 "decaf.tab.c"
+#line 1648 "decaf.tab.c"
     break;
 
   case 17:
-#line 262 "decaf.y"
+#line 255 "decaf.y"
             {
                 if( strncmp("label",(yyvsp[0].str_val),5)==0 ){
                     ERROR("Mot commencant par label interdit");
                     YYABORT;
                 }
-                if( newname_proc((yyvsp[0].str_val),NULL,0,T_VOID,current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_proc((yyvsp[0].str_val),NULL,0,T_VOID,current_ctx))
             }
-#line 1670 "decaf.tab.c"
+#line 1660 "decaf.tab.c"
     break;
 
   case 18:
-#line 273 "decaf.y"
+#line 263 "decaf.y"
             {
                 symbole* s_meth = look_up((yyvsp[-4].str_val),TAB_SYMBOLES);
                 s_meth->type.proc.nb_arg = (yyvsp[0].types_liste).size;
@@ -1679,14 +1669,12 @@ yyreduce:
 
                 write_method_void_decl_args(code_inter, next_quad, current_ctx, &num_temp, s_meth, (yyvsp[0].types_liste));
             }
-#line 1683 "decaf.tab.c"
+#line 1673 "decaf.tab.c"
     break;
 
   case 19:
-#line 282 "decaf.y"
+#line 272 "decaf.y"
             {
-                symbole* s_meth = look_up((yyvsp[-7].str_val),TAB_SYMBOLES);
-
                 if((yyvsp[0].control_liste).size_return!=0 && (yyvsp[0].control_liste).type_return!=T_VOID){
                     ERROR("Types de retour incohérents");
                     YYABORT;
@@ -1699,123 +1687,110 @@ yyreduce:
                 complete_liste(code_inter,(yyvsp[0].control_liste).l_return,(yyvsp[0].control_liste).size_return,(*next_quad));
                 gencode(code_inter,next_quad,Q_END_METH,qo_name_meth,qo_nb_arg,qo_vide);
             }
-#line 1703 "decaf.tab.c"
+#line 1691 "decaf.tab.c"
     break;
 
   case 21:
-#line 302 "decaf.y"
+#line 290 "decaf.y"
             {
                 (yyval.types_liste) = (yyvsp[0].types_liste);
             }
-#line 1711 "decaf.tab.c"
+#line 1699 "decaf.tab.c"
     break;
 
   case 22:
-#line 306 "decaf.y"
+#line 294 "decaf.y"
             {
                 (yyval.types_liste).list = NULL;
                 (yyval.types_liste).size = 0;
             }
-#line 1720 "decaf.tab.c"
+#line 1708 "decaf.tab.c"
     break;
 
   case 23:
-#line 314 "decaf.y"
+#line 302 "decaf.y"
             {
+                CHECK_NOT_REDEF(newname_arg((yyvsp[0].str_val),(yyvsp[-1].int_val),current_ctx))
                 (yyval.types_liste).list = concat_liste_int((int*)(yyvsp[-3].types_liste).list,(yyvsp[-1].int_val),(yyvsp[-3].types_liste).size,&((yyval.types_liste).size));
-                if( newname_arg((yyvsp[0].str_val),(yyvsp[-1].int_val),current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
             }
-#line 1732 "decaf.tab.c"
+#line 1717 "decaf.tab.c"
     break;
 
   case 24:
-#line 322 "decaf.y"
+#line 307 "decaf.y"
             {
+                CHECK_NOT_REDEF(newname_arg((yyvsp[0].str_val),(yyvsp[-1].int_val),current_ctx))
                 (yyval.types_liste).list = malloc(1*sizeof(int));
                 (yyval.types_liste).list[0] = (yyvsp[-1].int_val);
                 (yyval.types_liste).size = 1;
-                if( newname_arg((yyvsp[0].str_val),(yyvsp[-1].int_val),current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
             }
-#line 1746 "decaf.tab.c"
+#line 1728 "decaf.tab.c"
     break;
 
   case 25:
-#line 337 "decaf.y"
+#line 317 "decaf.y"
             {
                 complete_liste(code_inter,(yyvsp[-3].control_liste).l_next,(yyvsp[-3].control_liste).size_next,(yyvsp[-2].int_val));
                 (yyval.control_liste) = (yyvsp[-3].control_liste);
                 (yyval.control_liste).l_next = creer_liste((*next_quad),&((yyval.control_liste).size_next));
                 gencode(code_inter,next_quad,Q_GOTO,qo_vide,qo_vide,qo_vide);
             }
-#line 1757 "decaf.tab.c"
+#line 1739 "decaf.tab.c"
     break;
 
   case 26:
-#line 347 "decaf.y"
+#line 327 "decaf.y"
             {
                 current_ctx = push_ctx(current_ctx, CTX_SIMP);
                 gencode(code_inter,next_quad,Q_PUSH_CTX,qo_vide,qo_vide,qo_vide);
             }
-#line 1766 "decaf.tab.c"
+#line 1748 "decaf.tab.c"
     break;
 
   case 27:
-#line 355 "decaf.y"
+#line 335 "decaf.y"
             {
                 current_ctx = current_ctx->prec;
                 gencode(code_inter,next_quad,Q_POP_CTX,qo_vide,qo_vide,qo_vide);
             }
-#line 1775 "decaf.tab.c"
+#line 1757 "decaf.tab.c"
     break;
 
   case 31:
-#line 372 "decaf.y"
-            {   
-                if(newname_var((yyvsp[0].str_val),(yyvsp[-3].int_val),current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+#line 352 "decaf.y"
+            {
+                CHECK_NOT_REDEF(newname_var((yyvsp[0].str_val),(yyvsp[-3].int_val),current_ctx))
             }
-#line 1786 "decaf.tab.c"
+#line 1765 "decaf.tab.c"
     break;
 
   case 32:
-#line 379 "decaf.y"
+#line 356 "decaf.y"
             {
-                if(newname_var((yyvsp[0].str_val),(yyvsp[-1].int_val),current_ctx)==NULL){
-                    ERROR("Redéfinition d'un identifiant de la même portée");
-                    YYABORT;
-                }
+                CHECK_NOT_REDEF(newname_var((yyvsp[0].str_val),(yyvsp[-1].int_val),current_ctx))
             }
-#line 1797 "decaf.tab.c"
+#line 1773 "decaf.tab.c"
     break;
 
   case 33:
-#line 390 "decaf.y"
+#line 363 "decaf.y"
             {
                 (yyval.int_val) = T_INT;
             }
-#line 1805 "decaf.tab.c"
+#line 1781 "decaf.tab.c"
     break;
 
   case 34:
-#line 394 "decaf.y"
+#line 367 "decaf.y"
             {
                 (yyval.int_val) = T_BOOL;
             }
-#line 1813 "decaf.tab.c"
+#line 1789 "decaf.tab.c"
     break;
 
   case 35:
-#line 403 "decaf.y"
+#line 374 "decaf.y"
             {
-
                 complete_liste(code_inter,(yyvsp[-2].control_liste).l_next,(yyvsp[-2].control_liste).size_next,(yyvsp[-1].int_val));
                 (yyval.control_liste).l_next = (yyvsp[0].control_liste).l_next;
                 (yyval.control_liste).size_next = (yyvsp[0].control_liste).size_next;
@@ -1834,11 +1809,11 @@ yyreduce:
                     (yyval.control_liste).type_return=(yyvsp[0].control_liste).type_return;
                 }
             }
-#line 1838 "decaf.tab.c"
+#line 1813 "decaf.tab.c"
     break;
 
   case 36:
-#line 424 "decaf.y"
+#line 394 "decaf.y"
             {
                 (yyval.control_liste).l_break = creer_liste_vide(&((yyval.control_liste).size_break));
                 (yyval.control_liste).l_continue = creer_liste_vide(&((yyval.control_liste).size_continue));
@@ -1846,11 +1821,11 @@ yyreduce:
                 (yyval.control_liste).l_next = creer_liste_vide(&((yyval.control_liste).size_next));
                 (yyval.control_liste).type_return = T_VOID;
             }
-#line 1850 "decaf.tab.c"
+#line 1825 "decaf.tab.c"
     break;
 
   case 37:
-#line 435 "decaf.y"
+#line 405 "decaf.y"
             {
                 if((yyvsp[-2].expr_val).type!=T_STRING){
                     ERROR("WriteString n'accepte que des Strings en argument");
@@ -1859,11 +1834,11 @@ yyreduce:
                 gencode(code_inter,next_quad,Q_PRINT,qo_vide,qo_vide,(yyvsp[-2].expr_val).result.qo);
                 write_empty_stat(&(yyval.control_liste));
             }
-#line 1863 "decaf.tab.c"
+#line 1838 "decaf.tab.c"
     break;
 
   case 38:
-#line 445 "decaf.y"
+#line 414 "decaf.y"
             {
                 // entier
                 // Q_COPY : loc : _ : result
@@ -1871,17 +1846,17 @@ yyreduce:
                 // Q_COPY : loc : dplc : result
                 // loc ou result sont des tableaux, on le verifie apres                
                 
-                if( (yyvsp[-2].int_val)==AFF_INC ){    
-                    if( (yyvsp[-3].expr_val).type!=(yyvsp[-1].expr_val).type || (yyvsp[-3].expr_val).type!=T_INT ){
+                if((yyvsp[-2].int_val)==AFF_INC){    
+                    if((yyvsp[-3].expr_val).type!=T_INT || (yyvsp[-1].expr_val).type!=T_INT){
                         ERROR("Incrémentation entre entiers uniquement");
-                        YYABORT;   
+                        YYABORT;
                     } else {
                         write_inc_dec(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[-3].expr_val), (yyvsp[-1].expr_val), Q_ADD);
-                    }                                                
+                    }
                 }
 
                 if((yyvsp[-2].int_val)==AFF_DEC){
-                    if((yyvsp[-3].expr_val).type!=(yyvsp[-1].expr_val).type || (yyvsp[-3].expr_val).type!=T_INT){
+                    if((yyvsp[-3].expr_val).type!=T_INT || (yyvsp[-1].expr_val).type!=T_INT){
                         ERROR("Décrémentation entre entiers uniquement");
                         YYABORT;   
                     } else {
@@ -1894,9 +1869,9 @@ yyreduce:
                         gencode(code_inter,next_quad,Q_COPY,(yyvsp[-1].expr_val).result.qo,(yyvsp[-3].expr_val).dplc,(yyvsp[-3].expr_val).result.qo);
                     } else if ((yyvsp[-3].expr_val).type==T_BOOL && (yyvsp[-1].expr_val).type==T_BOOL) {
                         write_assign_bool(code_inter, next_quad, current_ctx, (yyvsp[-3].expr_val), (yyvsp[-1].expr_val));
-                    } else {    
+                    } else {
                         ERROR("Assignation entre types différents interdite");
-                        YYABORT;    
+                        YYABORT;
                     }
                 }
 
@@ -1907,19 +1882,19 @@ yyreduce:
                 (yyval.control_liste).type_return = T_VOID;
 
             }
-#line 1911 "decaf.tab.c"
+#line 1886 "decaf.tab.c"
     break;
 
   case 39:
-#line 489 "decaf.y"
+#line 458 "decaf.y"
             {
                 write_empty_stat(&(yyval.control_liste));
             }
-#line 1919 "decaf.tab.c"
+#line 1894 "decaf.tab.c"
     break;
 
   case 40:
-#line 493 "decaf.y"
+#line 462 "decaf.y"
             {
                 if( (yyvsp[-3].expr_val).type != T_BOOL ){
                     ERROR("L'expression évaluée dans le if doit être booléenne");
@@ -1928,11 +1903,11 @@ yyreduce:
                     write_if_stat(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[-3].expr_val), (yyvsp[-1].int_val), (yyvsp[0].control_liste), &(yyval.control_liste));
                 }
             }
-#line 1932 "decaf.tab.c"
+#line 1907 "decaf.tab.c"
     break;
 
   case 41:
-#line 502 "decaf.y"
+#line 471 "decaf.y"
             {
                 if( (yyvsp[-7].expr_val).type != T_BOOL ){
                     ERROR("L'expression évaluée dans le if doit être booléenne");
@@ -1953,11 +1928,11 @@ yyreduce:
                 }
             
             }
-#line 1957 "decaf.tab.c"
+#line 1932 "decaf.tab.c"
     break;
 
   case 42:
-#line 523 "decaf.y"
+#line 492 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Les bornes de la boucle for doivent être des entiers");
@@ -1977,22 +1952,22 @@ yyreduce:
                 //ite = borne_inf
                 gencode(code_inter,next_quad,Q_COPY,(yyvsp[-2].expr_val).result.qo,qo_vide,qo_ite);
             }
-#line 1981 "decaf.tab.c"
+#line 1956 "decaf.tab.c"
     break;
 
   case 43:
-#line 543 "decaf.y"
+#line 512 "decaf.y"
             {
                 //vérification que ite < borne_sup
                 quad_op qo_ite;
                 new_qo_name(look_up((yyvsp[-6].str_val),current_ctx)->name,&(qo_ite));
                 gencode(code_inter,next_quad,Q_GREAT,qo_ite,(yyvsp[-2].expr_val).result.qo,qo_vide); 
             }
-#line 1992 "decaf.tab.c"
+#line 1967 "decaf.tab.c"
     break;
 
   case 44:
-#line 550 "decaf.y"
+#line 519 "decaf.y"
             {
 
                 write_end_loop_for_stat(code_inter, next_quad, &current_ctx, &num_temp, (yyvsp[-8].str_val), (yyvsp[-2].int_val), (yyvsp[0].control_liste));
@@ -2007,20 +1982,20 @@ yyreduce:
 
                 gencode(code_inter,next_quad,Q_GOTO,qo_vide,qo_vide,qo_vide);
             }
-#line 2011 "decaf.tab.c"
+#line 1986 "decaf.tab.c"
     break;
 
   case 45:
-#line 565 "decaf.y"
+#line 534 "decaf.y"
             {
                 write_empty_stat(&(yyval.control_liste));   
                 write_return_stat(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[-1].expr_val), &(yyval.control_liste));
             }
-#line 2020 "decaf.tab.c"
+#line 1995 "decaf.tab.c"
     break;
 
   case 46:
-#line 570 "decaf.y"
+#line 539 "decaf.y"
             {
                 if( dans_ctx_for(current_ctx)==0 ){
                     ERROR("Instruction break en-dehors d'une boucle for");
@@ -2030,11 +2005,11 @@ yyreduce:
                 (yyval.control_liste).l_break = creer_liste((*next_quad),&((yyval.control_liste).size_break));
                 gencode(code_inter,next_quad,Q_BREAK,qo_vide,qo_vide,qo_vide);
             }
-#line 2034 "decaf.tab.c"
+#line 2009 "decaf.tab.c"
     break;
 
   case 47:
-#line 580 "decaf.y"
+#line 549 "decaf.y"
             {
                 if( dans_ctx_for(current_ctx)==0 ){
                     ERROR("Instruction continue en-dehors d'une boucle for");
@@ -2044,70 +2019,70 @@ yyreduce:
                 (yyval.control_liste).l_continue = creer_liste((*next_quad),&((yyval.control_liste).size_continue));
                 gencode(code_inter,next_quad,Q_CONTINUE,qo_vide,qo_vide,qo_vide);
             }
-#line 2048 "decaf.tab.c"
+#line 2023 "decaf.tab.c"
     break;
 
   case 48:
-#line 590 "decaf.y"
+#line 559 "decaf.y"
             {
                 (yyval.control_liste) = (yyvsp[0].control_liste);
             }
-#line 2056 "decaf.tab.c"
+#line 2031 "decaf.tab.c"
     break;
 
   case 49:
-#line 597 "decaf.y"
+#line 566 "decaf.y"
             {
                 (yyval.expr_val) = (yyvsp[0].expr_val);
             }
-#line 2064 "decaf.tab.c"
+#line 2039 "decaf.tab.c"
     break;
 
   case 50:
-#line 601 "decaf.y"
+#line 570 "decaf.y"
             {
                 (yyval.expr_val).type = T_VOID;
                 new_qo_vide(&(yyval.expr_val).dplc);
                 new_qo_vide(&(yyval.expr_val).result.qo);
             }
-#line 2074 "decaf.tab.c"
+#line 2049 "decaf.tab.c"
     break;
 
   case 51:
-#line 610 "decaf.y"
+#line 579 "decaf.y"
             {
                 (yyval.control_liste).l_next = creer_liste((*next_quad),&((yyval.control_liste).size_next));
                 gencode(code_inter,next_quad,Q_GOTO,qo_vide,qo_vide,qo_vide);
             }
-#line 2083 "decaf.tab.c"
+#line 2058 "decaf.tab.c"
     break;
 
   case 52:
-#line 619 "decaf.y"
+#line 588 "decaf.y"
             {   
                 (yyval.int_val) = Q_COPY;    
             }
-#line 2091 "decaf.tab.c"
+#line 2066 "decaf.tab.c"
     break;
 
   case 53:
-#line 623 "decaf.y"
+#line 592 "decaf.y"
             {
                 (yyval.int_val) = AFF_INC;
             }
-#line 2099 "decaf.tab.c"
+#line 2074 "decaf.tab.c"
     break;
 
   case 54:
-#line 627 "decaf.y"
+#line 596 "decaf.y"
             {
-                (yyval.int_val) =AFF_DEC;
+                (yyval.int_val) = AFF_DEC;
             }
-#line 2107 "decaf.tab.c"
+#line 2082 "decaf.tab.c"
     break;
 
   case 55:
-#line 636 "decaf.y"
+#line 605 "decaf.y"
             {
                
                 
@@ -2133,11 +2108,11 @@ yyreduce:
 
                 write_method_call(code_inter, next_quad, current_ctx, &num_temp, s_meth, (yyvsp[-1].types_liste), &(yyval.expr_val));
             }
-#line 2137 "decaf.tab.c"
+#line 2112 "decaf.tab.c"
     break;
 
   case 56:
-#line 665 "decaf.y"
+#line 634 "decaf.y"
             {
                 (yyval.types_liste) = (yyvsp[0].types_liste);
                 for(int i = 0; i<(yyvsp[0].types_liste).size; i++){
@@ -2146,21 +2121,21 @@ yyreduce:
                     gencode(code_inter,next_quad,Q_PARAM,qo_depl,qo_vide,((yyval.types_liste).list_arg)[i]);
                 }
             }
-#line 2150 "decaf.tab.c"
+#line 2125 "decaf.tab.c"
     break;
 
   case 57:
-#line 674 "decaf.y"
+#line 643 "decaf.y"
             {
                 (yyval.types_liste).list_arg = NULL;
                 (yyval.types_liste).list = NULL;
                 (yyval.types_liste).size = 0;
             }
-#line 2160 "decaf.tab.c"
+#line 2135 "decaf.tab.c"
     break;
 
   case 58:
-#line 683 "decaf.y"
+#line 652 "decaf.y"
             {
                 (yyval.types_liste).list = concat_liste_int((int*)(yyvsp[-2].types_liste).list,(yyvsp[0].expr_val).type,(yyvsp[-2].types_liste).size,&((yyval.types_liste).size));
                 (yyval.types_liste).list_arg = realloc((yyvsp[-2].types_liste).list_arg,((yyvsp[-2].types_liste).size +1)*sizeof(quad_op));
@@ -2186,11 +2161,11 @@ yyreduce:
                 new_qo_name(qo_arg.qo_valeur.name,&((yyval.types_liste).list_arg[(yyvsp[-2].types_liste).size]));
 
             }
-#line 2190 "decaf.tab.c"
+#line 2165 "decaf.tab.c"
     break;
 
   case 59:
-#line 709 "decaf.y"
+#line 678 "decaf.y"
             {
                 (yyval.types_liste).list = malloc(1*sizeof(int));
                 (yyval.types_liste).list[0] = (yyvsp[0].expr_val).type;
@@ -2219,11 +2194,11 @@ yyreduce:
                 new_qo_name(qo_arg.qo_valeur.name,&((yyval.types_liste).list_arg[0]));
 
             }
-#line 2223 "decaf.tab.c"
+#line 2198 "decaf.tab.c"
     break;
 
   case 60:
-#line 744 "decaf.y"
+#line 711 "decaf.y"
             {
                 symbole* s_id = look_up((yyvsp[0].str_val),current_ctx);
                 if( s_id==NULL ){
@@ -2242,11 +2217,11 @@ yyreduce:
                     YYABORT;
                 }
             }
-#line 2246 "decaf.tab.c"
+#line 2221 "decaf.tab.c"
     break;
 
   case 61:
-#line 764 "decaf.y"
+#line 731 "decaf.y"
             {
                 symbole* s_tab = look_up((yyvsp[-3].str_val),current_ctx);
                 
@@ -2268,11 +2243,11 @@ yyreduce:
                     YYABORT;
                 }
             }
-#line 2272 "decaf.tab.c"
+#line 2247 "decaf.tab.c"
     break;
 
   case 62:
-#line 795 "decaf.y"
+#line 762 "decaf.y"
             {   
                 if( (yyvsp[0].expr_val).type==T_BOOL ){
                     write_location_bool_to_expr(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[0].expr_val), &(yyval.expr_val));
@@ -2283,11 +2258,11 @@ yyreduce:
                     YYABORT;
                 }
             }
-#line 2287 "decaf.tab.c"
+#line 2262 "decaf.tab.c"
     break;
 
   case 63:
-#line 808 "decaf.y"
+#line 775 "decaf.y"
             {
                 (yyval.expr_val).type = (yyvsp[0].expr_val).type;
                 new_qo_vide(&((yyval.expr_val).dplc));
@@ -2304,11 +2279,11 @@ yyreduce:
                     YYABORT;
                 }
             }
-#line 2308 "decaf.tab.c"
+#line 2283 "decaf.tab.c"
     break;
 
   case 64:
-#line 827 "decaf.y"
+#line 794 "decaf.y"
             {
                 if( (yyvsp[0].expr_val).type == T_BOOL ){
                     write_bool_to_expr(code_inter,next_quad,(yyvsp[0].expr_val),&(yyval.expr_val));
@@ -2319,11 +2294,11 @@ yyreduce:
                     YYABORT;                    
                 }
             }
-#line 2323 "decaf.tab.c"
+#line 2298 "decaf.tab.c"
     break;
 
   case 65:
-#line 839 "decaf.y"
+#line 806 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Opérations arithmétiques entre entiers seulement");
@@ -2332,11 +2307,11 @@ yyreduce:
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),(yyvsp[-2].expr_val),(yyvsp[0].expr_val),&(yyval.expr_val),Q_ADD);  
                 }   
             }
-#line 2336 "decaf.tab.c"
+#line 2311 "decaf.tab.c"
     break;
 
   case 66:
-#line 849 "decaf.y"
+#line 816 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Opérations arithmétiques entre entiers seulement");
@@ -2345,11 +2320,11 @@ yyreduce:
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),(yyvsp[-2].expr_val),(yyvsp[0].expr_val),&(yyval.expr_val),Q_SUB); 
                 }
             }
-#line 2349 "decaf.tab.c"
+#line 2324 "decaf.tab.c"
     break;
 
   case 67:
-#line 859 "decaf.y"
+#line 826 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Opérations arithmétiques entre entiers seulement");
@@ -2358,11 +2333,11 @@ yyreduce:
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),(yyvsp[-2].expr_val),(yyvsp[0].expr_val),&(yyval.expr_val),Q_MULT);
                 }
             }
-#line 2362 "decaf.tab.c"
+#line 2337 "decaf.tab.c"
     break;
 
   case 68:
-#line 869 "decaf.y"
+#line 836 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Opérations arithmétiques entre entiers seulement");
@@ -2371,11 +2346,11 @@ yyreduce:
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),(yyvsp[-2].expr_val),(yyvsp[0].expr_val),&(yyval.expr_val),Q_DIV);
                 }
             }
-#line 2375 "decaf.tab.c"
+#line 2350 "decaf.tab.c"
     break;
 
   case 69:
-#line 879 "decaf.y"
+#line 846 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Opérations arithmétiques entre entiers seulement");
@@ -2384,11 +2359,11 @@ yyreduce:
                     write_op_arith_to_expr(code_inter,next_quad,current_ctx,&(num_temp),(yyvsp[-2].expr_val),(yyvsp[0].expr_val),&(yyval.expr_val),Q_RES);
                 }
             }
-#line 2388 "decaf.tab.c"
+#line 2363 "decaf.tab.c"
     break;
 
   case 70:
-#line 889 "decaf.y"
+#line 856 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Opérations de comparaison arithmétique entre entiers seulement");
@@ -2397,11 +2372,11 @@ yyreduce:
                     write_op_log_int_to_expr(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[-2].expr_val), (yyvsp[0].expr_val), &(yyval.expr_val), Q_GREAT);
                 }
             }
-#line 2401 "decaf.tab.c"
+#line 2376 "decaf.tab.c"
     break;
 
   case 71:
-#line 899 "decaf.y"
+#line 866 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Opérations de comparaison arithmétique entre entiers seulement");
@@ -2410,11 +2385,11 @@ yyreduce:
                     write_op_log_int_to_expr(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[-2].expr_val), (yyvsp[0].expr_val), &(yyval.expr_val), Q_GREAT_EQ);
                 }
             }
-#line 2414 "decaf.tab.c"
+#line 2389 "decaf.tab.c"
     break;
 
   case 72:
-#line 909 "decaf.y"
+#line 876 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Opérations de comparaison arithmétique entre entiers seulement");
@@ -2423,11 +2398,11 @@ yyreduce:
                     write_op_log_int_to_expr(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[-2].expr_val), (yyvsp[0].expr_val), &(yyval.expr_val), Q_LESS);
                 }
             }
-#line 2427 "decaf.tab.c"
+#line 2402 "decaf.tab.c"
     break;
 
   case 73:
-#line 919 "decaf.y"
+#line 886 "decaf.y"
             {
                 if( (yyvsp[-2].expr_val).type!=T_INT || (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("Opérations de comparaison arithmétique entre entiers seulement");
@@ -2436,11 +2411,11 @@ yyreduce:
                     write_op_log_int_to_expr(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[-2].expr_val), (yyvsp[0].expr_val), &(yyval.expr_val), Q_LESS_EQ);
                 }
             }
-#line 2440 "decaf.tab.c"
+#line 2415 "decaf.tab.c"
     break;
 
   case 74:
-#line 930 "decaf.y"
+#line 897 "decaf.y"
             {
                 if( (yyvsp[-3].expr_val).type!=(yyvsp[0].expr_val).type ){
                     ERROR("Comparaison d'égalité seulement entre mêmes types");
@@ -2454,11 +2429,11 @@ yyreduce:
                     }
                 }
             }
-#line 2458 "decaf.tab.c"
+#line 2433 "decaf.tab.c"
     break;
 
   case 75:
-#line 946 "decaf.y"
+#line 913 "decaf.y"
             {
                 if( (yyvsp[-3].expr_val).type!=(yyvsp[0].expr_val).type ){
                     ERROR("Comparaison d'égalité seulement entre mêmes types");
@@ -2472,11 +2447,11 @@ yyreduce:
                     }
                 }
             }
-#line 2476 "decaf.tab.c"
+#line 2451 "decaf.tab.c"
     break;
 
   case 76:
-#line 961 "decaf.y"
+#line 928 "decaf.y"
             {
                 if( (yyvsp[-3].expr_val).type!=T_BOOL 
                  || (yyvsp[0].expr_val).type!=T_BOOL )
@@ -2487,11 +2462,11 @@ yyreduce:
                     write_or_to_expr(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[-3].expr_val), (yyvsp[-1].int_val), (yyvsp[0].expr_val), &(yyval.expr_val));
                 }                   
             }
-#line 2491 "decaf.tab.c"
+#line 2466 "decaf.tab.c"
     break;
 
   case 77:
-#line 973 "decaf.y"
+#line 940 "decaf.y"
             {
                 if( (yyvsp[-3].expr_val).type!=T_BOOL 
                     || (yyvsp[0].expr_val).type!=T_BOOL )
@@ -2502,11 +2477,11 @@ yyreduce:
                     write_and_to_expr(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[-3].expr_val), (yyvsp[-1].int_val), (yyvsp[0].expr_val), &(yyval.expr_val));
                 }                       
             }
-#line 2506 "decaf.tab.c"
+#line 2481 "decaf.tab.c"
     break;
 
   case 78:
-#line 986 "decaf.y"
+#line 953 "decaf.y"
             {
                 if( (yyvsp[0].expr_val).type!=T_INT ){
                     ERROR("L'opération unaire - ne s'applique qu'aux entiers");
@@ -2515,11 +2490,11 @@ yyreduce:
                     write_neg_to_expr(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[0].expr_val), &(yyval.expr_val));
                 }                
             }
-#line 2519 "decaf.tab.c"
+#line 2494 "decaf.tab.c"
     break;
 
   case 79:
-#line 996 "decaf.y"
+#line 963 "decaf.y"
             {
                 if( (yyvsp[0].expr_val).type!=T_BOOL ){
                     ERROR("L'opérateur ! ne s'applique qu'aux booléens");
@@ -2528,63 +2503,63 @@ yyreduce:
                     write_not_to_expr(code_inter, next_quad, current_ctx, &num_temp, (yyvsp[0].expr_val), &(yyval.expr_val));
                 }
             }
-#line 2532 "decaf.tab.c"
+#line 2507 "decaf.tab.c"
     break;
 
   case 80:
-#line 1005 "decaf.y"
+#line 972 "decaf.y"
             {
                 (yyval.expr_val) = (yyvsp[-1].expr_val);
             }
-#line 2540 "decaf.tab.c"
+#line 2515 "decaf.tab.c"
     break;
 
   case 81:
-#line 1012 "decaf.y"
+#line 979 "decaf.y"
             {   
                 (yyval.int_val) = (*next_quad); 
             }
-#line 2548 "decaf.tab.c"
+#line 2523 "decaf.tab.c"
     break;
 
   case 82:
-#line 1022 "decaf.y"
+#line 989 "decaf.y"
             {
                 (yyval.expr_val) = (yyvsp[0].expr_val);
             }
-#line 2556 "decaf.tab.c"
+#line 2531 "decaf.tab.c"
     break;
 
   case 83:
-#line 1027 "decaf.y"
+#line 994 "decaf.y"
             {
                 (yyval.expr_val) = (yyvsp[0].expr_val);
             }
-#line 2564 "decaf.tab.c"
+#line 2539 "decaf.tab.c"
     break;
 
   case 84:
-#line 1031 "decaf.y"
+#line 998 "decaf.y"
             {
                 (yyval.expr_val).type = T_INT;
                 new_qo_vide(&((yyval.expr_val).dplc));
                 new_qo_cst((yyvsp[0].int_val),&((yyval.expr_val).result.qo));                
             }
-#line 2574 "decaf.tab.c"
+#line 2549 "decaf.tab.c"
     break;
 
   case 85:
-#line 1037 "decaf.y"
+#line 1004 "decaf.y"
             {
                 (yyval.expr_val).type = T_STRING;
                 symbole* str = newname_string((yyvsp[0].str_val),TAB_SYMBOLES,&num_temp);
                 new_qo_name(str->name,&((yyval.expr_val).result.qo));                 
             }
-#line 2584 "decaf.tab.c"
+#line 2559 "decaf.tab.c"
     break;
 
   case 86:
-#line 1046 "decaf.y"
+#line 1013 "decaf.y"
             {
                 (yyval.expr_val).type = T_INT;
                 if(-2147483648>(yyvsp[0].int_val) || (yyvsp[0].int_val)>2147483648){
@@ -2594,11 +2569,11 @@ yyreduce:
                 new_qo_vide(&((yyval.expr_val).dplc));
                 new_qo_cst((yyvsp[0].int_val),&((yyval.expr_val).result.qo));
             }
-#line 2598 "decaf.tab.c"
+#line 2573 "decaf.tab.c"
     break;
 
   case 87:
-#line 1056 "decaf.y"
+#line 1023 "decaf.y"
             {
                 (yyval.expr_val).type = T_INT;
                 printf("%li",(yyvsp[0].int_val));
@@ -2609,31 +2584,31 @@ yyreduce:
                 new_qo_vide(&((yyval.expr_val).dplc));
                 new_qo_cst((yyvsp[0].int_val),&((yyval.expr_val).result.qo));
             }
-#line 2613 "decaf.tab.c"
+#line 2588 "decaf.tab.c"
     break;
 
   case 88:
-#line 1070 "decaf.y"
+#line 1037 "decaf.y"
             {
                 (yyval.expr_val).type = T_BOOL;
                 new_qo_vide(&((yyval.expr_val).dplc));
                 new_qo_cst(0,&((yyval.expr_val).result.qo));
             }
-#line 2623 "decaf.tab.c"
+#line 2598 "decaf.tab.c"
     break;
 
   case 89:
-#line 1076 "decaf.y"
+#line 1043 "decaf.y"
             {
                 (yyval.expr_val).type = T_BOOL;
                 new_qo_vide(&((yyval.expr_val).dplc));
                 new_qo_cst(1,&((yyval.expr_val).result.qo));
             }
-#line 2633 "decaf.tab.c"
+#line 2608 "decaf.tab.c"
     break;
 
 
-#line 2637 "decaf.tab.c"
+#line 2612 "decaf.tab.c"
 
       default: break;
     }
@@ -2865,7 +2840,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 1084 "decaf.y"
+#line 1051 "decaf.y"
 
 
 void yyerror (void** tab_symbole, void** code_inter, int* next_quad, const char* msg){
