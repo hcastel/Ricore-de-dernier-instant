@@ -314,7 +314,7 @@ Programme valide.
 198	| Q_COPY || 1:CST:0	|| 3:VAR:81TEMP	|
 199	| Q_PARAM || 1:CST:1	|| 3:VAR:81TEMP	|
 200	| Q_CALL_METH || 1:VAR:WriteBool	|| 2:CST:1	|
-201	| RIEN || 3:VAR:STR82	|
+201	| Q_PRINT || 3:VAR:STR82	|
 202	| Q_POP_CTX |
 203	| Q_GOTO |
 204	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

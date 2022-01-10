@@ -278,7 +278,7 @@ Programme valide.
 191	| Q_COPY || 1:VAR:res	|| 3:VAR:59TEMP	|
 192	| Q_PARAM || 1:CST:1	|| 3:VAR:59TEMP	|
 193	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-194	| RIEN || 3:VAR:STR60	|
+194	| Q_PRINT || 3:VAR:STR60	|
 195	| Q_POP_CTX |
 196	| Q_GOTO |
 197	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

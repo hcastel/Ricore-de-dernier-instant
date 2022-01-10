@@ -249,7 +249,7 @@ Programme valide.
 104	| Q_GREAT || 1:VAR:50TEMP	|| 2:VAR:51TEMP	|| 3:CST:106	|
 105	| Q_GOTO || 3:CST:111	|
 106	| Q_PUSH_CTX |
-107	| RIEN || 3:VAR:STR52	|
+107	| Q_PRINT || 3:VAR:STR52	|
 108	| Q_RETURN || 3:CST:252	|
 109	| Q_POP_CTX |
 110	| Q_GOTO || 3:CST:111	|
@@ -376,7 +376,7 @@ Programme valide.
 231	| Q_CALL_METH || 1:VAR:get	|| 2:CST:2	|| 3:VAR:105TEMP	|
 232	| Q_PARAM || 1:CST:1	|| 3:VAR:105TEMP	|
 233	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-234	| RIEN || 3:VAR:STR106	|
+234	| Q_PRINT || 3:VAR:STR106	|
 235	| Q_COPY || 1:VAR:s	|| 3:VAR:107TEMP	|
 236	| Q_COPY || 1:VAR:i	|| 3:VAR:108TEMP	|
 237	| Q_PARAM || 1:CST:1	|| 3:VAR:107TEMP	|
@@ -384,7 +384,7 @@ Programme valide.
 239	| Q_CALL_METH || 1:VAR:get	|| 2:CST:2	|| 3:VAR:109TEMP	|
 240	| Q_PARAM || 1:CST:1	|| 3:VAR:109TEMP	|
 241	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-242	| RIEN || 3:VAR:STR110	|
+242	| Q_PRINT || 3:VAR:STR110	|
 243	| Q_POP_CTX |
 244	| Q_GOTO || 3:CST:245	|
 245	| Q_ADD || 1:CST:1	|| 2:VAR:i	|| 3:VAR:111TEMP	|

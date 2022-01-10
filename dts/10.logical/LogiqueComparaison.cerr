@@ -120,15 +120,15 @@ Programme valide.
 85	| Q_EQ || 1:VAR:18TEMP	|| 2:VAR:19TEMP	|| 3:CST:87	|
 86	| Q_GOTO || 3:CST:92	|
 87	| Q_PUSH_CTX |
-88	| RIEN || 3:VAR:STR20	|
+88	| Q_PRINT || 3:VAR:STR20	|
 89	| Q_POP_CTX |
 90	| Q_GOTO || 3:CST:96	|
 91	| Q_GOTO || 3:CST:96	|
 92	| Q_PUSH_CTX |
-93	| RIEN || 3:VAR:STR21	|
+93	| Q_PRINT || 3:VAR:STR21	|
 94	| Q_POP_CTX |
 95	| Q_GOTO || 3:CST:96	|
-96	| RIEN || 3:VAR:STR22	|
+96	| Q_PRINT || 3:VAR:STR22	|
 97	| Q_POP_CTX |
 98	| Q_GOTO |
 99	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

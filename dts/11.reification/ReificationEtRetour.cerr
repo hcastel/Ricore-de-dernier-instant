@@ -64,15 +64,15 @@ Programme valide.
 34	| Q_IF || 1:VAR:13TEMP	|| 3:CST:36	|
 35	| Q_GOTO || 3:CST:41	|
 36	| Q_PUSH_CTX |
-37	| RIEN || 3:VAR:STR14	|
+37	| Q_PRINT || 3:VAR:STR14	|
 38	| Q_POP_CTX |
 39	| Q_GOTO || 3:CST:45	|
 40	| Q_GOTO || 3:CST:45	|
 41	| Q_PUSH_CTX |
-42	| RIEN || 3:VAR:STR15	|
+42	| Q_PRINT || 3:VAR:STR15	|
 43	| Q_POP_CTX |
 44	| Q_GOTO || 3:CST:45	|
-45	| RIEN || 3:VAR:STR16	|
+45	| Q_PRINT || 3:VAR:STR16	|
 46	| Q_POP_CTX |
 47	| Q_GOTO |
 48	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

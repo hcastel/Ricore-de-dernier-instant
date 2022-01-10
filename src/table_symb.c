@@ -27,33 +27,22 @@ ctx* push_ctx(ctx* ctx_cour, enum ctx_type type) {
 }
 
 symbole* look_up(char* name, ctx* ctx_cour) {
-
-    ctx* it_ctx = ctx_cour;
-    symbole* res = NULL;
-
-    while( it_ctx!=NULL ) {
-        //printf("RECH\n");
-        for(int i = 0; i<it_ctx->size_tab; i++) {
+    for(ctx* it_ctx = ctx_cour; it_ctx != NULL; it_ctx = it_ctx->prec) {
+        for(int i = 0; i < it_ctx->size_tab; i++) {
             if( strcmp(it_ctx->tab[i].name,name)==0 ) {
-                res = &(it_ctx->tab[i]);
-                return res;
+                return &(it_ctx->tab[i]);
             }
         }
-        it_ctx = it_ctx->prec;
-
     }
 
-    return res;
+    return NULL;
 }
 
 int dans_ctx_for(ctx* ctx_cour) {
-    ctx* it_ctx = ctx_cour;
-
-    while( it_ctx!=NULL ) {
+    for(ctx* it_ctx = ctx_cour; it_ctx != NULL; it_ctx = it_ctx->prec) {
         if( it_ctx->ctx_type==CTX_FOR ){
             return 1;
         }
-        it_ctx = it_ctx->prec;
     }
 
     return 0;    

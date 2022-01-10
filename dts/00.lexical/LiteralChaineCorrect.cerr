@@ -13,7 +13,7 @@ Programme valide.
 1	| Q_PUSH_CTX |
 2	| Q_DEF_METH || 1:VAR:main	|| 2:CST:0	|
 3	| Q_PUSH_CTX |
-4	| RIEN || 3:VAR:STR2	|
+4	| Q_PRINT || 3:VAR:STR2	|
 5	| Q_POP_CTX |
 6	| Q_GOTO |
 7	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

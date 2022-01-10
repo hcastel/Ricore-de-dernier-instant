@@ -66,7 +66,7 @@
     long int int_val;
 
     // liste de types (typiquement utilisée pour les arguments de fonction)
-    type_liste type_liste;
+    types_liste types_liste;
     // liste contenant l'état d'un bloc (break, return, etc...)
     control_liste control_liste;
     // expr (listes booléennes, entier, etc...)
@@ -116,10 +116,10 @@
 %type <control_liste> statement
 %type <control_liste> N
 
-%type <type_liste> method_decl_args
-%type <type_liste> method_decl_arg
-%type <type_liste> method_call_args
-%type <type_liste> method_call_arg
+%type <types_liste> method_decl_args
+%type <types_liste> method_decl_arg
+%type <types_liste> method_call_args
+%type <types_liste> method_call_arg
 
 %type <int_val> assign_op
 %type <int_val> M
@@ -239,7 +239,6 @@ method_decl:
                 s_meth->type.proc.retour = $1;
 
                 write_method_void_decl_args(code_inter, next_quad, current_ctx, &num_temp, s_meth, $6);
-
             }
     CL_PAR block
             {
@@ -259,7 +258,7 @@ method_decl:
                 gencode(code_inter,next_quad,Q_END_METH,qo_name_meth,qo_nb_arg,qo_vide);  
             }
     pop
-    | TYPE_VOID ID 
+    | TYPE_VOID ID
             {
                 if( strncmp("label",$2,5)==0 ){
                     ERROR("Mot commencant par label interdit");

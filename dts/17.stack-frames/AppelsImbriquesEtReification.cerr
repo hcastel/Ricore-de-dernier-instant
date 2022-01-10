@@ -344,7 +344,7 @@ Programme valide.
 232	| Q_COPY || 1:VAR:c	|| 3:VAR:85TEMP	|
 233	| Q_PARAM || 1:CST:1	|| 3:VAR:85TEMP	|
 234	| Q_CALL_METH || 1:VAR:WriteInt	|| 2:CST:1	|
-235	| RIEN || 3:VAR:STR86	|
+235	| Q_PRINT || 3:VAR:STR86	|
 236	| Q_POP_CTX |
 237	| Q_GOTO |
 238	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|

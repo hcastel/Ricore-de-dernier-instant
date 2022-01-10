@@ -30,7 +30,7 @@ Programme valide.
 1	| Q_PUSH_CTX |
 2	| Q_DEF_METH || 1:VAR:main	|| 2:CST:0	|
 3	| Q_PUSH_CTX |
-4	| RIEN || 3:VAR:STR2	|
+4	| Q_PRINT || 3:VAR:STR2	|
 5	| Q_COPY || 1:CST:0	|| 3:VAR:3TEMP	|
 6	| Q_COPY || 1:CST:0	|| 3:VAR:4TEMP	|
 7	| Q_COPY || 1:VAR:4TEMP	|| 2:VAR:3TEMP	|| 3:VAR:t	|
@@ -57,7 +57,7 @@ Programme valide.
 28	| Q_GOTO || 3:CST:12	|
 29	| Q_POP_CTX |
 30	| Q_GOTO || 3:CST:31	|
-31	| RIEN || 3:VAR:STR17	|
+31	| Q_PRINT || 3:VAR:STR17	|
 32	| Q_POP_CTX |
 33	| Q_GOTO |
 34	| Q_END_METH || 1:VAR:main	|| 2:CST:0	|
