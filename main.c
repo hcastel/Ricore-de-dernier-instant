@@ -28,12 +28,13 @@ int main(int argc, char* argv[]){
     int tos = 0, aff_name = 0;
     char nom_groupe[] ="ESCUDIE Erwan, NICOLAZO David, ANDRIDJISHIFS-DINA Vagnona, BASTIEN Théo, CASTEL Hugo";
 
-    for(int i = 2; i<argc; i++){
+    for(int i = 1; i<argc; i++){
         if( strcmp(argv[i],"-o")==0 ){
             file_dest = argv[i+1];
         }
         if( strcmp(argv[i],"-version")==0 ){
-            printf("%s",nom_groupe);
+            printf("%s\n",nom_groupe);
+            return 0;
         }
         if( strcmp(argv[i],"-tos")==0 ){
             tos = 1;
