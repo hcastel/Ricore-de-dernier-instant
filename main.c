@@ -25,7 +25,6 @@ char* NOMS_TYPES[] = {"Q_ADD","Q_SUB","Q_MULT","Q_DIV","Q_RES","Q_EQ","Q_LESS","
 int NUMEROS_TYPES[] = {Q_ADD,Q_SUB,Q_MULT,Q_DIV,Q_RES,Q_EQ,Q_LESS,Q_GREAT,Q_LESS_EQ,Q_GREAT_EQ,Q_COPY,Q_GOTO,Q_IF,Q_PUSH_CTX,Q_POP_CTX,Q_NEG,Q_BREAK,Q_CONTINUE,Q_DEF_METH,Q_RETURN,Q_END_METH,Q_CALL_METH,Q_PARAM,Q_PRINT};
 int NB_Q_TYPES = 24;
 
-
 int main(int argc, char* argv[]){
     char* file_dest = NULL;
     int tos = 0;
@@ -43,6 +42,12 @@ int main(int argc, char* argv[]){
         }
     }
     
+    yyin = fopen(argv[1],"r");
+    if( yyin==NULL ){
+        fprintf(stderr,"Le fichier decaf n'existe pas.\n");
+        return 1;
+    }
+
     yyin = fopen(argv[1],"r");
     if( yyin==NULL ){
         fprintf(stderr,"Le fichier decaf n'existe pas.\n");
